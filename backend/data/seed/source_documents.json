@@ -1,0 +1,37 @@
+[
+  {
+    "department_code": "drp",
+    "service_code": "nic_first_time",
+    "title": "Obtaining National Identity Cards for the first time",
+    "url": "https://drp.gov.lk/en/normal.php",
+    "source_type": "webpage"
+  },
+  {
+    "department_code": "drp",
+    "service_code": "nic_lost",
+    "title": "Lost or Damaged National Identity Cards",
+    "url": "https://drp.gov.lk/en/normal.php",
+    "source_type": "webpage"
+  },
+  {
+    "department_code": "drp",
+    "service_code": "nic_first_time",
+    "title": "NIC Application Form (Normal/One-Day)",
+    "url": "https://drp.gov.lk/en/downloads.php",
+    "source_type": "form"
+  },
+  {
+    "department_code": "dmt",
+    "service_code": "dl_new",
+    "title": "New Driving Licence - Requirements and Procedure",
+    "url": "https://www.gov.lk/government/eservices",
+    "source_type": "webpage"
+  },
+  {
+    "department_code": "dmt",
+    "service_code": "dl_renewal",
+    "title": "Driving Licence Renewal - Requirements and Procedure",
+    "url": "https://www.gov.lk/government/eservices",
+    "source_type": "webpage"
+  }
+]

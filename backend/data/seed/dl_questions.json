@@ -1,0 +1,29 @@
+[
+  {
+    "service_code": "dl_new",
+    "question_key": "has_learner_permit",
+    "question_text": "Do you already have a valid Learner Permit?",
+    "help_text": "A learner permit is required before you can apply for the full driving licence.",
+    "answer_type": "boolean",
+    "order_index": 1,
+    "condition_json": null
+  },
+  {
+    "service_code": "dl_new",
+    "question_key": "medical_certificate_ready",
+    "question_text": "Have you already obtained the medical fitness certificate from NTMI?",
+    "help_text": "A medical certificate from the National Transport Medical Institution is mandatory.",
+    "answer_type": "boolean",
+    "order_index": 2,
+    "condition_json": null
+  },
+  {
+    "service_code": "dl_renewal",
+    "question_key": "is_dl_expired",
+    "question_text": "Has your driving licence already expired?",
+    "help_text": "There may be late fees if the licence has been expired for a long time.",
+    "answer_type": "boolean",
+    "order_index": 1,
+    "condition_json": null
+  }
+]

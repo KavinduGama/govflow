@@ -1,0 +1,18 @@
+[
+  {
+    "id": 1,
+    "code": "drp",
+    "name_en": "Department for Registration of Persons",
+    "description": "Responsible for issuing National Identity Cards to Sri Lankan citizens.",
+    "website_url": "https://drp.gov.lk",
+    "hotline": "0115226100"
+  },
+  {
+    "id": 2,
+    "code": "dmt",
+    "name_en": "Department of Motor Traffic",
+    "description": "Responsible for driving licences and vehicle registration in Sri Lanka.",
+    "website_url": "https://eservices.motortraffic.gov.lk",
+    "hotline": "071-4033300"
+  }
+]

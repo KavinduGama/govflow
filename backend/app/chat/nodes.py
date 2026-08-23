@@ -1,0 +1,93 @@
+import json
+from langchain_openai import ChatOpenAI
+from langchain_core.messages import SystemMessage, ToolMessage
+from langgraph.prebuilt import ToolNode
+
+from app.chat.state import ConversationState
+from app.chat.tools import (
+    search_knowledge_base,
+    get_eligibility_questions,
+    generate_workflow_plan
+)
+
+# 1. Define the tools the agent can use
+tools = [search_knowledge_base, get_eligibility_questions, generate_workflow_plan]
+
+# 2. Initialize the LLM and bind the tools
+llm = ChatOpenAI(model="gpt-5.5")
+llm_with_tools = llm.bind_tools(tools)
+
+# 3. Create the ToolNode (handles executing the tools automatically)
+tool_node = ToolNode(tools)
+
+from app.database import SessionLocal
+from app.models import Service
+
+SYSTEM_PROMPT_TEMPLATE = """
+You are GovFlow AI, an intelligent and autonomous assistant for Sri Lankan citizens.
+Your job is to help users navigate government procedures or answer their general questions.
+
+You have access to several tools:
+1. `search_knowledge_base`: Use this to answer general questions (e.g. office hours, general rules, forms).
+2. `get_eligibility_questions`: Use this when a user wants to start a specific procedure. This tool will return a list of questions you MUST ask the user to determine their eligibility.
+3. `generate_workflow_plan`: Once you have asked the user ALL the required eligibility questions and gathered their answers, use this tool to generate the final procedure and document checklist.
+
+Available service codes for `get_eligibility_questions` and `generate_workflow_plan`:
+{dynamic_services}
+
+INSTRUCTIONS FOR PROCEDURES:
+- If a user asks to do something, find the matching service code above and first call `get_eligibility_questions(service_code)`.
+- Then, ask the user the questions ONE BY ONE. Do not overwhelm them.
+- When the user answers your question, store that answer in your context.
+- Once you have collected the answers to ALL the questions returned by `get_eligibility_questions`, YOU MUST call `generate_workflow_plan` with a JSON string of their answers.
+- Do NOT generate the workflow yourself. You must use the `generate_workflow_plan` tool.
+- The `generate_workflow_plan` tool returns a JSON object. 
+- **CRITICAL**: Do NOT summarize the output of `generate_workflow_plan`. The frontend UI will automatically catch the JSON string and render a beautiful UI. Just say "I have generated your workflow plan below."
+
+Be helpful, concise, and professional.
+"""
+
+def get_dynamic_system_prompt():
+    db = SessionLocal()
+    try:
+        services = db.query(Service).all()
+        services_list = "\n".join([f'- "{s.service_code}": {s.title_en}' for s in services])
+        return SYSTEM_PROMPT_TEMPLATE.format(dynamic_services=services_list)
+    finally:
+        db.close()
+
+def agent_node(state: ConversationState):
+    """
+    The core agent node that decides what to do next.
+    """
+    print("--> [Node] Agent Thinking...")
+    messages = state["messages"]
+    
+    # Prepend system prompt if it's the first turn (or we can just dynamically inject it)
+    if not messages or not isinstance(messages[0], SystemMessage):
+        messages = [SystemMessage(content=get_dynamic_system_prompt())] + messages
+        
+    print(f"DEBUG MESSAGES COUNT: {len(messages)}")
+    for m in messages:
+        print(f"  - {m.type}: {m.content[:50]}")
+        
+    response = llm_with_tools.invoke(messages)
+    
+    # Check if a tool returned the final workflow
+    final_workflow_data = state.get("final_workflow")
+    
+    # We look through the history backwards to find the latest generate_workflow_plan
+    for msg in reversed(messages):
+        if isinstance(msg, ToolMessage) and msg.name == "generate_workflow_plan":
+            try:
+                workflow_json = json.loads(msg.content)
+                if "steps" in workflow_json:
+                    final_workflow_data = workflow_json
+                    break
+            except json.JSONDecodeError:
+                pass
+    
+    return {
+        "messages": [response],
+        "final_workflow": final_workflow_data
+    }

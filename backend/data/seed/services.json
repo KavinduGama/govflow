@@ -1,0 +1,33 @@
+[
+  {
+    "id": 1,
+    "department_id": 1,
+    "service_code": "nic_first_time",
+    "title_en": "NIC — First Time Application",
+    "description": "Apply for your first National Identity Card. Available as normal service (up to 3 months) or one-day service.",
+    "processing_time": "3 hours (one-day) or up to 3 months (normal)",
+    "fee_description": "Normal service: Rs. 200, One-day service: Rs. 2000"
+  },
+  {
+    "id": 2,
+    "department_id": 1,
+    "service_code": "nic_lost",
+    "title_en": "NIC — Lost/Damaged Replacement",
+    "description": "Replace a lost, stolen, or damaged National Identity Card.",
+    "processing_time": "3 hours (one-day) or up to 3 months (normal)"
+  },
+  {
+    "id": 3,
+    "department_id": 2,
+    "service_code": "dl_new",
+    "title_en": "Driving Licence — New Application",
+    "description": "Apply for your first driving licence. Requires a learner permit held for at least 3 months."
+  },
+  {
+    "id": 4,
+    "department_id": 2,
+    "service_code": "dl_renewal",
+    "title_en": "Driving Licence — Renewal",
+    "description": "Renew your existing driving licence. Can be renewed 3 months before expiry."
+  }
+]

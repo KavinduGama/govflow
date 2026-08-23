@@ -1,0 +1,106 @@
+[
+  {
+    "service_code": "nic_first_time",
+    "document_key": "birth_certificate",
+    "name": "Birth Certificate",
+    "description": "Original birth certificate and one photocopy.",
+    "requirement_type": "required",
+    "condition_json": null
+  },
+  {
+    "service_code": "nic_first_time",
+    "document_key": "photographs",
+    "name": "Photographs",
+    "description": "Two color photographs (3.5 cm x 4.5 cm) certified by the Grama Niladhari.",
+    "requirement_type": "required",
+    "condition_json": null
+  },
+  {
+    "service_code": "nic_first_time",
+    "document_key": "application_form",
+    "name": "NIC Application Form",
+    "description": "Completed application form available from the Grama Niladhari or downloaded online.",
+    "requirement_type": "required",
+    "condition_json": null
+  },
+  {
+    "service_code": "nic_lost",
+    "document_key": "police_report",
+    "name": "Police Report",
+    "description": "Original police complaint report for the lost NIC.",
+    "requirement_type": "required",
+    "condition_json": null
+  },
+  {
+    "service_code": "nic_lost",
+    "document_key": "birth_certificate",
+    "name": "Birth Certificate",
+    "description": "Original birth certificate and one photocopy.",
+    "requirement_type": "required",
+    "condition_json": null
+  },
+  {
+    "service_code": "nic_lost",
+    "document_key": "photographs",
+    "name": "Photographs",
+    "description": "Two color photographs (3.5 cm x 4.5 cm) certified by the Grama Niladhari.",
+    "requirement_type": "required",
+    "condition_json": null
+  },
+  {
+    "service_code": "nic_lost",
+    "document_key": "old_nic_copy",
+    "name": "Photocopy of old NIC",
+    "description": "A photocopy of your lost NIC.",
+    "requirement_type": "optional",
+    "condition_json": {"include_if": {"has_old_nic_copy": true}}
+  },
+  {
+    "service_code": "dl_new",
+    "document_key": "nic",
+    "name": "National Identity Card",
+    "description": "Original NIC and a photocopy.",
+    "requirement_type": "required",
+    "condition_json": null
+  },
+  {
+    "service_code": "dl_new",
+    "document_key": "birth_certificate",
+    "name": "Birth Certificate",
+    "description": "Original birth certificate.",
+    "requirement_type": "required",
+    "condition_json": null
+  },
+  {
+    "service_code": "dl_new",
+    "document_key": "medical_certificate",
+    "name": "Medical Certificate",
+    "description": "Medical fitness certificate from the National Transport Medical Institution (NTMI).",
+    "requirement_type": "required",
+    "condition_json": null
+  },
+  {
+    "service_code": "dl_new",
+    "document_key": "learner_permit",
+    "name": "Learner Permit",
+    "description": "Your valid learner permit (must be held for at least 3 months).",
+    "requirement_type": "required",
+    "condition_json": null
+  },
+  {
+    "service_code": "dl_renewal",
+    "document_key": "current_dl",
+    "name": "Current Driving Licence",
+    "description": "Your current or expired driving licence.",
+    "requirement_type": "required",
+    "condition_json": null
+  },
+  {
+    "service_code": "dl_renewal",
+    "document_key": "nic",
+    "name": "National Identity Card",
+    "description": "Original NIC and a photocopy.",
+    "requirement_type": "required",
+    "condition_json": null
+  }
+]

@@ -1,0 +1,47 @@
+[
+  {
+    "service_code": "nic_first_time",
+    "question_key": "is_one_day_service",
+    "question_text": "Do you want one-day service (card ready in ~3 hours)?",
+    "help_text": "One-day service is available at the DRP head office in Battaramulla. Normal service takes up to 3 months but can be done at any regional office.",
+    "answer_type": "boolean",
+    "order_index": 1,
+    "condition_json": null
+  },
+  {
+    "service_code": "nic_first_time",
+    "question_key": "applicant_district",
+    "question_text": "Which district are you from?",
+    "help_text": "This determines which regional DRP office handles your application.",
+    "answer_type": "district",
+    "order_index": 2,
+    "condition_json": null
+  },
+  {
+    "service_code": "nic_first_time",
+    "question_key": "applicant_age",
+    "question_text": "What is your age?",
+    "help_text": "You must be at least 16 years old to apply for an NIC.",
+    "answer_type": "number",
+    "order_index": 3,
+    "condition_json": null
+  },
+  {
+    "service_code": "nic_lost",
+    "question_key": "has_police_report",
+    "question_text": "Have you filed a police complaint for the lost NIC?",
+    "help_text": "A police report is required when applying for a lost NIC replacement.",
+    "answer_type": "boolean",
+    "order_index": 1,
+    "condition_json": null
+  },
+  {
+    "service_code": "nic_lost",
+    "question_key": "has_old_nic_copy",
+    "question_text": "Do you have a photocopy of your old NIC?",
+    "help_text": "If available, a copy of the lost NIC speeds up the replacement process.",
+    "answer_type": "boolean",
+    "order_index": 2,
+    "condition_json": null
+  }
+]

@@ -1,0 +1,178 @@
+{
+  "scraped_at": "2026-08-03T00:00:00Z",
+  "source_note": "Manually curated from eservices.motortraffic.gov.lk and gov.lk. Requires admin review before publishing.",
+  "data": {
+    "service_type": "driving_licence",
+    "department": "Department of Motor Traffic",
+    "official_appointment_url": "https://eservices.motortraffic.gov.lk",
+    "official_contact_whatsapp": "071-4033300",
+    "review_status": "manually_curated",
+    "note": "Cross-referenced from eservices.motortraffic.gov.lk and gov.lk. Verify before publishing.",
+    "sub_services": {
+      "dl_new": {
+        "name": "New Driving Licence (First Time)",
+        "eligibility": {
+          "minimum_age": 18,
+          "requires_learner_permit": true,
+          "learner_permit_holding_period_days": 90
+        },
+        "required_documents": [
+          {
+            "key": "nic_original",
+            "name": "Original National Identity Card (NIC)",
+            "requirement_type": "required",
+            "notes": "Must be the smart card (12-digit NIC number)"
+          },
+          {
+            "key": "nic_copy",
+            "name": "Photocopy of NIC",
+            "requirement_type": "required",
+            "notes": "Both front and back"
+          },
+          {
+            "key": "birth_certificate",
+            "name": "Birth Certificate",
+            "requirement_type": "required",
+            "notes": "Original or certified copy"
+          },
+          {
+            "key": "medical_certificate",
+            "name": "Medical Certificate from National Transport Medical Institution",
+            "requirement_type": "required",
+            "notes": "Must be from NTMI — not any private hospital"
+          },
+          {
+            "key": "learner_permit",
+            "name": "Current Learner Permit",
+            "requirement_type": "required",
+            "notes": "Must be held for at least 3 months"
+          },
+          {
+            "key": "passport_photo",
+            "name": "Recent Passport-Sized Photographs",
+            "requirement_type": "required",
+            "notes": "Check current DMT specification for count"
+          },
+          {
+            "key": "driving_school_certificate",
+            "name": "Certificate from Registered Driving School",
+            "requirement_type": "conditional",
+            "condition": "If attended a driving school",
+            "notes": "Optional but recommended"
+          }
+        ],
+        "workflow_steps": [
+          {
+            "step_key": "get_learner_permit",
+            "title": "Obtain a Learner Permit first",
+            "description": "You must hold a learner permit for at least 3 months before applying for the full licence. Visit your nearest DMT district office.",
+            "order": 1,
+            "estimated_time": "1 day to obtain"
+          },
+          {
+            "step_key": "get_medical_certificate",
+            "title": "Get Medical Certificate from NTMI",
+            "description": "Visit the National Transport Medical Institution (NTMI) for a medical fitness examination. This is ONLY accepted from NTMI — not any private hospital.",
+            "order": 2,
+            "estimated_time": "1 day"
+          },
+          {
+            "step_key": "book_appointment",
+            "title": "Book appointment on DMT e-Services portal",
+            "description": "Visit https://eservices.motortraffic.gov.lk to book your appointment at your nearest DMT district office.",
+            "order": 3,
+            "estimated_time": "15 minutes online"
+          },
+          {
+            "step_key": "prepare_documents",
+            "title": "Prepare all required documents",
+            "description": "Gather all documents listed in the checklist. Double-check each item before your appointment.",
+            "order": 4,
+            "estimated_time": "1–2 days"
+          },
+          {
+            "step_key": "attend_dmt_office",
+            "title": "Attend DMT district office on appointment date",
+            "description": "Bring all original documents and photocopies. Submit your application and pay the applicable fee at the cashier.",
+            "order": 5,
+            "estimated_time": "Half day"
+          },
+          {
+            "step_key": "written_test",
+            "title": "Pass the written knowledge test",
+            "description": "A computer-based test on traffic rules and road signs will be conducted at the DMT office.",
+            "order": 6,
+            "estimated_time": "30–60 minutes"
+          },
+          {
+            "step_key": "practical_test",
+            "title": "Pass the practical driving test",
+            "description": "A DMT examiner will conduct the practical driving test at the DMT office grounds.",
+            "order": 7,
+            "estimated_time": "30–60 minutes"
+          },
+          {
+            "step_key": "collect_licence",
+            "title": "Collect your driving licence",
+            "description": "Upon passing, your licence will be issued. Verify the processing time at your DMT office.",
+            "order": 8,
+            "estimated_time": "Same day or few days"
+          }
+        ]
+      },
+      "dl_renewal": {
+        "name": "Driving Licence Renewal",
+        "renewal_window": "Can be renewed 3 months before expiry or up to 1 year after expiry",
+        "required_documents": [
+          {
+            "key": "current_licence",
+            "name": "Current/Expired Driving Licence",
+            "requirement_type": "required"
+          },
+          {
+            "key": "nic_original",
+            "name": "Original NIC",
+            "requirement_type": "required"
+          },
+          {
+            "key": "nic_copy",
+            "name": "Photocopy of NIC",
+            "requirement_type": "required"
+          },
+          {
+            "key": "medical_certificate",
+            "name": "Medical Certificate from NTMI",
+            "requirement_type": "conditional",
+            "condition": "Required if renewing after expiry or for certain age groups. Check with DMT."
+          }
+        ],
+        "workflow_steps": [
+          {
+            "step_key": "book_appointment",
+            "title": "Book renewal appointment online",
+            "description": "Visit https://eservices.motortraffic.gov.lk and book a renewal appointment.",
+            "order": 1
+          },
+          {
+            "step_key": "prepare_documents",
+            "title": "Prepare renewal documents",
+            "description": "Gather current licence + NIC. Check if a medical certificate is needed for your case.",
+            "order": 2
+          },
+          {
+            "step_key": "attend_dmt_office",
+            "title": "Visit DMT office on your appointment date",
+            "description": "Submit documents and pay the renewal fee.",
+            "order": 3
+          },
+          {
+            "step_key": "collect_renewed_licence",
+            "title": "Collect renewed licence",
+            "description": "Renewed licence is typically issued on the same day.",
+            "order": 4
+          }
+        ]
+      }
+    }
+  }
+}

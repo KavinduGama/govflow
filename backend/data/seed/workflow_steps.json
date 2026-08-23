@@ -1,0 +1,178 @@
+[
+  {
+    "service_code": "nic_first_time",
+    "step_number": 1,
+    "title": "Collect required documents",
+    "description": "Gather your birth certificate (original + photocopy), two certified photographs (3.5cm x 4.5cm), and the completed NIC application form (available from Grama Niladhari or downloaded from drp.gov.lk).",
+    "location_type": null,
+    "condition_json": null
+  },
+  {
+    "service_code": "nic_first_time",
+    "step_number": 2,
+    "title": "Get Grama Niladhari certification",
+    "description": "Visit your local Grama Niladhari (GN) office. The GN officer will certify your application form and verify your identity.",
+    "location_type": "Grama Niladhari Office",
+    "condition_json": {"exclude_if": {"is_one_day_service": true}}
+  },
+  {
+    "service_code": "nic_first_time",
+    "step_number": 3,
+    "title": "Submit application at Divisional Secretariat",
+    "description": "Take the certified form and all documents to your Divisional Secretariat office. Pay the normal processing fee of Rs. 200.",
+    "location_type": "Divisional Secretariat",
+    "condition_json": {"exclude_if": {"is_one_day_service": true}}
+  },
+  {
+    "service_code": "nic_first_time",
+    "step_number": 2,
+    "title": "Visit DRP Head Office for One-Day Service",
+    "description": "Go to the Department for Registration of Persons head office in Battaramulla with all your documents. Pay the one-day processing fee of Rs. 2000.",
+    "location_type": "DRP Head Office, Battaramulla",
+    "condition_json": {"include_if": {"is_one_day_service": true}}
+  },
+  {
+    "service_code": "nic_first_time",
+    "step_number": 3,
+    "title": "Biometric data capture",
+    "description": "Your fingerprints and photograph will be captured digitally at the office.",
+    "location_type": null,
+    "condition_json": null
+  },
+  {
+    "service_code": "nic_first_time",
+    "step_number": 4,
+    "title": "Collect your NIC",
+    "description": "For one-day service: collect your NIC the same day (~3 hours). For normal service: your NIC will be mailed to you within 3 months.",
+    "location_type": null,
+    "condition_json": null
+  },
+  {
+    "service_code": "nic_lost",
+    "step_number": 1,
+    "title": "File a police complaint",
+    "description": "Report the loss/damage of your NIC at the nearest police station and obtain the police report.",
+    "location_type": "Police Station",
+    "condition_json": null
+  },
+  {
+    "service_code": "nic_lost",
+    "step_number": 2,
+    "title": "Collect required documents",
+    "description": "Gather your police report, birth certificate (original + copy), two certified photographs, and a photocopy of your lost NIC (if available).",
+    "location_type": null,
+    "condition_json": null
+  },
+  {
+    "service_code": "nic_lost",
+    "step_number": 3,
+    "title": "Get Grama Niladhari certification",
+    "description": "Visit your local GN officer to certify the replacement application form.",
+    "location_type": "Grama Niladhari Office",
+    "condition_json": null
+  },
+  {
+    "service_code": "nic_lost",
+    "step_number": 4,
+    "title": "Submit application at Divisional Secretariat",
+    "description": "Submit all documents at your Divisional Secretariat and pay the applicable fee.",
+    "location_type": "Divisional Secretariat",
+    "condition_json": null
+  },
+  {
+    "service_code": "dl_new",
+    "step_number": 1,
+    "title": "Obtain a Learner Permit",
+    "description": "Visit your nearest DMT district office to apply for a learner permit. You must be at least 18 years old.",
+    "location_type": "DMT District Office",
+    "condition_json": null
+  },
+  {
+    "service_code": "dl_new",
+    "step_number": 2,
+    "title": "Wait 3 months holding period",
+    "description": "You must hold the learner permit for at least 3 months before you can apply for the full licence.",
+    "location_type": null,
+    "condition_json": null
+  },
+  {
+    "service_code": "dl_new",
+    "step_number": 3,
+    "title": "Get Medical Certificate from NTMI",
+    "description": "Visit the National Transport Medical Institution (NTMI) for a medical fitness examination. This is ONLY accepted from NTMI.",
+    "location_type": "NTMI",
+    "condition_json": null
+  },
+  {
+    "service_code": "dl_new",
+    "step_number": 4,
+    "title": "Book appointment online",
+    "description": "Visit https://eservices.motortraffic.gov.lk to book your driving test appointment.",
+    "location_type": "Online",
+    "condition_json": null
+  },
+  {
+    "service_code": "dl_new",
+    "step_number": 5,
+    "title": "Attend DMT office with documents",
+    "description": "Bring NIC (original + copy), birth certificate, learner permit, medical certificate, passport photos, and pay the applicable fee.",
+    "location_type": "DMT District Office",
+    "condition_json": null
+  },
+  {
+    "service_code": "dl_new",
+    "step_number": 6,
+    "title": "Pass the written test",
+    "description": "Complete the computer-based test on traffic rules and road signs at the DMT office.",
+    "location_type": "DMT District Office",
+    "condition_json": null
+  },
+  {
+    "service_code": "dl_new",
+    "step_number": 7,
+    "title": "Pass the practical driving test",
+    "description": "A DMT examiner will conduct the practical driving test at the DMT office grounds.",
+    "location_type": "DMT District Office",
+    "condition_json": null
+  },
+  {
+    "service_code": "dl_new",
+    "step_number": 8,
+    "title": "Collect your driving licence",
+    "description": "Upon passing both tests, your licence will be issued. Check processing time at your DMT office.",
+    "location_type": "DMT District Office",
+    "condition_json": null
+  },
+  {
+    "service_code": "dl_renewal",
+    "step_number": 1,
+    "title": "Book renewal appointment online",
+    "description": "Visit https://eservices.motortraffic.gov.lk and book a renewal appointment at your nearest DMT office.",
+    "location_type": "Online",
+    "condition_json": null
+  },
+  {
+    "service_code": "dl_renewal",
+    "step_number": 2,
+    "title": "Prepare renewal documents",
+    "description": "Gather your current/expired driving licence and NIC (original + copy). Check if a medical certificate is needed for your case.",
+    "location_type": null,
+    "condition_json": null
+  },
+  {
+    "service_code": "dl_renewal",
+    "step_number": 3,
+    "title": "Visit DMT office on appointment date",
+    "description": "Submit your documents and pay the renewal fee at the DMT district office.",
+    "location_type": "DMT District Office",
+    "condition_json": null
+  },
+  {
+    "service_code": "dl_renewal",
+    "step_number": 4,
+    "title": "Collect renewed licence",
+    "description": "Your renewed licence is typically issued on the same day.",
+    "location_type": "DMT District Office",
+    "condition_json": null
+  }
+]

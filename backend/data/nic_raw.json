@@ -1,0 +1,363 @@
+{
+  "scraped_at": "2026-08-04T23:23:05.390946+00:00",
+  "source_department": "Department for Registration of Persons",
+  "source_base_url": "https://drp.gov.lk/en",
+  "data": {
+    "faqs": [
+      {
+        "question": "How much time does it take to obtain a National Identity Card under normal service?",
+        "answer": "There are 16\r\nsteps in the process preparing of a National Identity card, from submitting the application to the\r\npreparation of National Identity Card. In all cases except in cases of issues with the\r\ninformation/documents submitted, the National Identity Card will be mailed to the applicant’s personal\r\naddress within 03 months of handing over the application.",
+        "source_url": "https://drp.gov.lk/en/faq.php",
+        "section": "faq"
+      },
+      {
+        "question": "How long does it take for the National Identity Card to be processed, after applying for a national Identity Card under one day service?",
+        "answer": "There are 16 steps in the process of preparing a National Identity card under a one-dayservice, from submission of the application to preparation of the National Identity card. In all cases,except in the case of problems with the information submitted, the National Identity Card can be\r\nobtained within 3 hours of handing over the application.",
+        "source_url": "https://drp.gov.lk/en/faq.php",
+        "section": "faq"
+      },
+      {
+        "question": "How has the National Identity card number changed, when obtaining the new National Identity card? Will it be a problem to changingto a 12 digits number for my professional/banking activities",
+        "answer": "In the new Smart National Identity card, your National Identity card number consists of 12 numbers.\r\nAccordingly, the letter v or the letter x at the end of the old National Identity card number is removed,\r\nand \"0\" is added before the last 04 numbers, and the National Identity card stars with the year of birth. That is starting at 19. Example - Old N.I.C. number – 855420159v New N.I.C. number - 19 85542 0 159 In addition to your new ID number, the old National ID number is printed on the back of the National ID\r\ncard and all government agencies including banks/financial institutions, have been informed about\r\nthe change in the National ID numbers. Hence, there will be no problem regarding verifying your\r\nidentity.",
+        "source_url": "https://drp.gov.lk/en/faq.php",
+        "section": "faq"
+      },
+      {
+        "question": "Why does the National Identity card number change completely after obtaining dual citizenship under 19(2)? Will I be notified in writing of such a change?",
+        "answer": "A person who has obtained dual citizenship under 19(2) of Citizenship Act No.18 of 1948, loses his/her Sri Lankan citizenship by birth, and consequently, his/her National Identity card number used so far will also be cancelled. Therefore, you have to apply for a National Identity card subsequent to obtaining dual citizenship, and the National Identity card you receive after obtaining dual citizenship will have a different number than the previously used number, and a letter of confirmation of the number will be issued by the Department for Registration of Persons.",
+        "source_url": "https://drp.gov.lk/en/faq.php",
+        "section": "faq"
+      },
+      {
+        "question": "I have obtained dual citizenship under 19(3). Do I have to reapply for a National identity card subsequent to obtaining dual citizenship? Will my National Identity card number change after reapplying?",
+        "answer": "No. Since your Sri Lankan citizenship by birth does not get cancelled if you have acquired dual citizenship under 19(3) of the Citizenship Act, it is not mandatory to reapply for a National Identity card after acquiring a dual citizenship certificate. When you apply for a new National Identity card due to an\r\namendment or misplacement, the previously used number will not be changed, and you will be able to\r\nobtain the new smart card comprising 12 digits.",
+        "source_url": "https://drp.gov.lk/en/faq.php",
+        "section": "faq"
+      },
+      {
+        "question": "Is there a specific procedure for obtaining a photograph of a disabled person for a National Identity card? How do I ask for information about it?",
+        "answer": "In cases where it is inconvenient to take a disabled person to a registered studio to take an ICAO standard National Identity card photograph, a photographer can be invited to the home after discussing with the nearest studio. Further information with regard to such a situation could be inquired on the phone number 0115226174.",
+        "source_url": "https://drp.gov.lk/en/faq.php",
+        "section": "faq"
+      },
+      {
+        "question": ".  If a person is unable to come to the Department for Registration of Persons to collect his National Identity card in person, can someone else come to collect it?",
+        "answer": "It is mandatory for the applicant to come to collect the National Identity card. National Identity card will be issued only to the mother, father, wife, husband, or next of kin who bring a letter authorized by GramaNiladhari stating the difficulty of a disabled person, very old person, hospitalized person,seriously ill person, or a person who finds it extremely hard to reach the department premises.",
+        "source_url": "https://drp.gov.lk/en/faq.php",
+        "section": "faq"
+      },
+      {
+        "question": "Is it mandatory to hand over the National Identity Card of a deceased person to the Department for Registration of Persons?",
+        "answer": "It is mandatory to hand over the National Identity card of a deceased person to the head office of the Department for Registration of Persons or to a regional office, since it is a punishable offense to keep in possession the National Identity card of another person, and to prevent the misuse of a National Identity card of a deceased person",
+        "source_url": "https://drp.gov.lk/en/faq.php",
+        "section": "faq"
+      },
+      {
+        "question": "How do I obtain National Identity card information letters of deceased persons?",
+        "answer": "In an inquiry made\r\nby the relatives of a deceased person, number confirmation letters will be issued at the head office after obtaining the necessary documents, for which a government fee of Rs.500.00 will be charged.\r\n\r\nAlso, in every case, the next of kin who possesses the National Identity card of the deceased has to\r\nsubmit the request for number confirmation letter, and only in an event that the next of kin is unable to come, the National Identity card number confirmation letter will be issued to an authorized person with the recommendation of the Grama Niladhari.",
+        "source_url": "https://drp.gov.lk/en/faq.php",
+        "section": "faq"
+      },
+      {
+        "question": "How do I obtain National Identity card number confirmation letters to be submitted to foreign\r\nmissions?",
+        "answer": "Number confirmation letters are issued with the concurrence of the Ministry of Foreign Affairs\r\nto be submitted to foreign missions upon the requests of individuals. Therefore, it is mandatory to\r\nobtain the smart identity card before requesting for National Identity card number confirmation letters.A fee of Rs.500.00 has to be paid to the government for obtaining National Identity card number confirmation letters.",
+        "source_url": "https://drp.gov.lk/en/faq.php",
+        "section": "faq"
+      },
+      {
+        "question": "When I presented my National Identity card to another institution, I was informed that the information mentioned in the National Identity card could not be confirmed. Therefore, how do I get the information\r\non the Identity card confirmed?",
+        "answer": "If any institution or financial organization notifies the Department for Registration of Persons through the email address niclookup_ccu@drp.lk that information about a particular person is not available in the data\r\nsystem of the department, the number verification branch of the Department for Registration of Persons provides information to the relevant institute, confirming the National Identity card number.",
+        "source_url": "https://drp.gov.lk/en/faq.php",
+        "section": "faq"
+      }
+    ],
+    "procedures": [
+      {
+        "service_type": "nic_first_time",
+        "content": "Obtaing  National Identity Card for the first time\nBasic requirements to be met to apply for a National Identity Card.\nEvery person who is a citizen of Sri Lanka and who has attained or attains the age of 15 years  shall apply for a National Identity card.\nSubmitting an application.\nApplicant\nApplication Certifying officer\n1. School Applicants,\nPrincipal or Parivenadhipathi\n2. Applicants who have fulfilled the above basic requirements,\nGrama Niladhari of the area of residence. (Counter signature of the Divisional Secretary is mandatory)\n3. Estate residents who have fulfilled the above basic qualifications,\nEstate Superintendent\nAs mentioned above, it is mandatory for every applicant to forward the application for the National Identity card through the relevant certifying officer.\nLevy of Fees / Fines\n1\nFor issuance of a revised copy of a National Identity Card\n( Notice on revision of fees charged)\nRs.200.00\n2\nFor issuance of a revised copy of a National Identity Card\nRs.500.00\n3\nFor issuance of a duplicate copy of a lost National Identity Card.\nRs.1000.00\n4\nFor issuance of National Identity Cards under One Day Service.\nRs.2000.00\n5\nFor translation of National Identity Card to English\nRs.2000.00\n6\nFor a request by a National Identity Card holder to verify the\r\nauthenticity of information on a National Identity Card\nRs.1000.00\n7\nFine payable for failure to obtain a National Identity Card within\r\nthe prescribed time limit\nRs.2500.00\n8\nSubmission of original applications on two occasions\nRs.2500.00\n9\nSubmission of false information\nRs.2500.00\nThe aforesaid fees can be paid through the certifying officers certifying the application, and the fines should be paid to Shroff of the relevant Divisional Secretariat.\nDocuments to be submitted along with the application\nDuly completed application\n(Form D.R.P/1,7,8)\nBirth certificate or extract of the birth registry certified by the Additional District Registrar.\nICAO standard photograph\nobtained within 06 month period.\nReceipt of payment of application fee.\nDocuments required in addition to the above\nIf birth certificate is not available, probable age certificate or results of search of registers has to be submitted along with a document as proof or name and date of birth. (Birth certificate of a child/School leaving certificate of the applicant/ Estate leaving certificate of the applicant/ certified copy of the applicant’s horoscope/ marriage certificate of the applicant/ citizenship certificate of the applicant / Document issued by the principal, certifying the Applicant’s date of birth)\nIn case of a person born abroad to a Sri Lankan mother or a father, Citizenship certificate issued by the Department of Immigration and Emigration to prove that Sri Lankan citizenship has been obtained.\n( specimen of a citizenship certificate)\nDual citizenship certificate in case of dual citizenship (\nspecimen of a dual citizenship certificate)\nFor clergy, the following documents should also be submitted.\nFor a Buddhist monk, Samanera certificate or Upasampada certificate issued by the Department of Buddhist Affairs,\nFor priests of other religions, certificates issued by the relevant departments to\r\nprove the clergy ship of other religions,\nCertificates of reclining of clergyship issued by relevant departments,\nIf an applicant has not applied for registration within the prescribed period;\nDuly filled application form\n(Form D.R.P/OP/02/03)\nReceipt of payment of prescribed fines\nMarriage certificate attested by Additional District Registrar if applying for husband's name or surname\nIssuance of National Identity Cards\nNormal Service\nNational ID cards will be issued to the applicant by post after the applications submitted through the Principal or the Parivenadhipathi are forwarded to the department or the relevant provincial offices.\nIn the case of applications forwarded through the Grama Niladhari, the National Identity Card will be issued to the applicant by post after the application and related documents are forwarded to the Department's system by the ID card Division of the respective District Secretariats.\nOneday Service\nApplicants who wish to obtain the National Identity cards under one day service can avail the service by visiting the Head Office in Battaramulla or Galle Provincial office with the completed application.\nFor details of Oneday Service..",
+        "list_items": [
+          "Duly completed application(Form D.R.P/1,7,8)",
+          "Birth certificate or extract of the birth registry certified by the Additional District Registrar.",
+          "ICAO standard photographobtained within 06 month period.",
+          "Receipt of payment of application fee.",
+          "If birth certificate is not available, probable age certificate or results of search of registers has to be submitted along with a document as proof or name and date of birth. (Birth certificate of a child/School leaving certificate of the applicant/ Estate leaving certificate of the applicant/ certified copy of the applicant’s horoscope/ marriage certificate of the applicant/ citizenship certificate of the applicant / Document issued by the principal, certifying the Applicant’s date of birth)",
+          "In case of a person born abroad to a Sri Lankan mother or a father, Citizenship certificate issued by the Department of Immigration and Emigration to prove that Sri Lankan citizenship has been obtained.( specimen of a citizenship certificate)",
+          "Dual citizenship certificate in case of dual citizenship (specimen of a dual citizenship certificate)",
+          "For clergy, the following documents should also be submitted.",
+          "If an applicant has not applied for registration within the prescribed period;",
+          "Marriage certificate attested by Additional District Registrar if applying for husband's name or surname"
+        ],
+        "source_url": "https://drp.gov.lk/en/normal.php#v-pills-home-tab",
+        "section": "procedures"
+      },
+      {
+        "service_type": "nic_lost",
+        "content": "Obtaining a new National Identity card for a lost National Identity card\nA person who has lost his National Identity card should immediately report to the nearest police station and should apply for a new National Identity card in place of the lost National Identity card without delay.\nSubmitting an application.\nApplicant\nApplication Certifying officer\n1. In case of an estate resident whose National Identity card has been lost\nEstate Superintendent\n2. In case of any applicant who is not an estate resident whose National Identity card has been lost,\nThrough Grama Niladhari (Counter signature of the Divisional Secretary is mandatory)\nIt is mandatory for every applicant to forward the application through the relevant certifying officer.\nLevy of Fees / Fines\n1\nFee for issuance of a new National Identity card in place of a lost National Identity card.\n(Notice on revision of fees charged)\n.\nRs.1000.00\n2\nFee for sending National Identity card by registered post under normal service.\nRs.120.00\nThe aforesaid fees can be paid through the certifying officers certifying the application.\nDocuments to be submitted\nDuly completed application\n(Form D.R.P/1,7,8)\nOriginal copy of the police complaint\nBirth certificate or extract of the birth registry certified by the Additional District Registrar\nICAO standard photograph\nobtained within 06 month period.\nReceipt of payment of application fee.\nOther documents required in addition to the above\nIf birth certificate is not available, probable age certificate or results of search of registers has to be submitted along with a document as proof or name and date of birth (Birth certificate of a child/School leaving certificate of the applicant/ Estate leaving certificate of the applicant/ certified copy of the applicant’s horoscope/ marriage certificate of the applicant/ citizenship certificate of the applicant / Document issued by the principal, certifying the Applicant’s date of birth)\nFor applicants above the age of 50 years who do not have birth certificate or the probable age certificate, a formal affidavit to prove name and date of birth and a recognized written evidence to prove name and date of birth (Birth certificate of a child/School leaving certificate of the applicant/ Estate leaving certificate of the applicant/Applicant’s Elders Identity card / Certificate of baptism of the applicant) along with the results of search of registers issued by the Additional District Registrar.\nIn case of a person born abroad to a Sri Lankan mother or a father,\nCitizenship certificate\nissued by the Department of Immigration and Emigration to prove that Sri Lankan citizenship has beenobtained.\nDual citizenship certificate\nin case of dual citizenship\nFor clergy, the following documents should also be submitted.\nFor a Buddhist monk, Samanera certificate or Upasampada certificate issued by the Department of Buddhist Affairs,\nFor priests of other religions, certificates issued by the relevant departments to prove the clergy ship of other religions,\nCertificates of reclining of clergy ship issued by relevant departments,\nMarriage certificate attested by Additional District Registrar if applying for husband's name or surname\nIf there are no records of the National Identity Card number used by the applicant in the Department's database, a written proof of the use of the National Identity Card.\nIssuance of National Identity Cards\nNormal Service\nIn the case of applications forwarded through the Grama Niladhari, the National Identity Card\r\nwill be issued to the applicant by post after the application and related documents are\r\nforwarded to the Department's system by the ID card Division of the respective District\r\nSecretariats.\nOneday Service\nApplicants who wish to obtain National Identity cards under one day service can obtain the service by visiting the Head Office in Battaramulla or Galle Provincial office with the completed application.",
+        "list_items": [
+          "Duly completed application(Form D.R.P/1,7,8)",
+          "Original copy of the police complaint",
+          "Birth certificate or extract of the birth registry certified by the Additional District Registrar",
+          "ICAO standard photographobtained within 06 month period.",
+          "Receipt of payment of application fee.",
+          "If birth certificate is not available, probable age certificate or results of search of registers has to be submitted along with a document as proof or name and date of birth (Birth certificate of a child/School leaving certificate of the applicant/ Estate leaving certificate of the applicant/ certified copy of the applicant’s horoscope/ marriage certificate of the applicant/ citizenship certificate of the applicant / Document issued by the principal, certifying the Applicant’s date of birth)",
+          "For applicants above the age of 50 years who do not have birth certificate or the probable age certificate, a formal affidavit to prove name and date of birth and a recognized written evidence to prove name and date of birth (Birth certificate of a child/School leaving certificate of the applicant/ Estate leaving certificate of the applicant/Applicant’s Elders Identity card / Certificate of baptism of the applicant) along with the results of search of registers issued by the Additional District Registrar.",
+          "In case of a person born abroad to a Sri Lankan mother or a father,Citizenship certificateissued by the Department of Immigration and Emigration to prove that Sri Lankan citizenship has beenobtained.",
+          "Dual citizenship certificatein case of dual citizenship",
+          "For clergy, the following documents should also be submitted.",
+          "Marriage certificate attested by Additional District Registrar if applying for husband's name or surname",
+          "If there are no records of the National Identity Card number used by the applicant in the Department's database, a written proof of the use of the National Identity Card."
+        ],
+        "source_url": "https://drp.gov.lk/en/normal.php#v-pills-profile-tab",
+        "section": "procedures"
+      },
+      {
+        "service_type": "nic_amendment",
+        "content": "Amending National Identity card\nCircumstances in which the National Identity card should be amended\nIn the event that a National Identity card is damaged or information on it has been deleted or is illegible or the information mentioned is about to become illegible or information on the Identity card has changed or realizing that the identity card contains incorrect information, should apply for an amendment of National Identity card immediately.\nSubmitting an application.\nApplicant\nApplication certifying officer\n1. In case of an estate resident who requires to amend the National Identity card\nEstate Superintendent\n2. In case of any non estate resident applicant who requires amending the National Identity card.\nGrama Niladhari of the area of residence (Counter signature of the Divisional Secretary is mandatory)\nIt is mandatory for every applicant to forward the application through the relevant certifying officer.\nLevy of Fees\n1. Fee for issuance of amended National Identity card\n(Notice on revision of fees charged)\nRs.500.00\n2. Fee for sending National Identity card by registered post under normal service.\nRs.120.00\nThe aforesaid fees can be paid through the certifying officers certifying the application.\nDocuments to be submitted\nDuly completed application (Form D.R.P/1,7,8)\nPreviously used National Identity card\nBirth certificate or extract of the birth registry certified by the Additional District Registrar\nICAO standard photograph\nobtained within 06 month period.\nReceipt of payment of application fee.\nOther documents required in addition to the above\nIf birth certificate is not available, probable age certificate or results of search of registers has to be submitted along with a document as proof or name and date of birth. (Birth certificate of a child/School leaving certificate of the applicant/ Estate leaving certificate of the applicant/ certified copy of the applicant’s horoscope/ marriage certificate of the applicant/ citizenship certificate of the applicant / Document issued by the principal, certifying the Applicant’s date of birth)\nFor applicants above the age of 40 years who do not have birth certificate or the probable age certificate, a formal affidavit to prove name and date of birth and a recognized written evidence to prove name and date of birth (Birth certificate of a child/School leaving certificate of the applicant/ Estate leaving certificate of the applicant/Applicant’s Elders Identity card / Certificate of baptism of the applicant) along with the results of a(delete) search of registers issued by the\r\nAdditional District Registrar.\nIn case of a person born abroad to a Sri Lankan mother or a father,\nCitizenship certificate\nissued by the Department of Immigration and Emigration to prove that Sri Lankan citizenship has been obtained.\nDual citizenship certificate\nin case of dual citizenship\nFor clergy, the following documents should also be submitted.\nFor a Buddhist monk, Samanera certificate or Upasampada certificate issued by the Department of Buddhist Affairs,\nFor priests of other religions, certificates issued by the relevant departments to prove the clergy ship of other religions,\nCertificates of reclining of clergy ship issued by relevant departments,\nMarriage certificate attested by Additional District Registrar if applying for husband's\r\nname or surname\nIssuance of National Identity Cards\nNormal Service\nIn the case of applications forwarded through the Grama Niladhari, the National Identity Card will be issued to the applicant by post after the application and related documents are forwarded to the Department's system by the ID card Division of the respective District\r\nSecretariats.\nOneday Service\nApplicants who wish to obtain National Identity cards under one day service can visit the Head Office in Battaramulla or Galle Provincial office with the completed applications and obtain the service.",
+        "list_items": [
+          "Duly completed application (Form D.R.P/1,7,8)",
+          "Previously used National Identity card",
+          "Birth certificate or extract of the birth registry certified by the Additional District Registrar",
+          "ICAO standard photographobtained within 06 month period.",
+          "Receipt of payment of application fee.",
+          "If birth certificate is not available, probable age certificate or results of search of registers has to be submitted along with a document as proof or name and date of birth. (Birth certificate of a child/School leaving certificate of the applicant/ Estate leaving certificate of the applicant/ certified copy of the applicant’s horoscope/ marriage certificate of the applicant/ citizenship certificate of the applicant / Document issued by the principal, certifying the Applicant’s date of birth)",
+          "For applicants above the age of 40 years who do not have birth certificate or the probable age certificate, a formal affidavit to prove name and date of birth and a recognized written evidence to prove name and date of birth (Birth certificate of a child/School leaving certificate of the applicant/ Estate leaving certificate of the applicant/Applicant’s Elders Identity card / Certificate of baptism of the applicant) along with the results of a(delete) search of registers issued by the\r\nAdditional District Registrar.",
+          "In case of a person born abroad to a Sri Lankan mother or a father,Citizenship certificateissued by the Department of Immigration and Emigration to prove that Sri Lankan citizenship has been obtained.",
+          "Dual citizenship certificatein case of dual citizenship",
+          "For clergy, the following documents should also be submitted.",
+          "Marriage certificate attested by Additional District Registrar if applying for husband's\r\nname or surname"
+        ],
+        "source_url": "https://drp.gov.lk/en/normal.php#v-pills-operation-tab",
+        "section": "procedures"
+      },
+      {
+        "service_type": "nic_dual_citizen",
+        "content": "Issuance of National Identity Cards for Dual Citizens\nDual Citizenship under Section 19(2) of Citizenship Act No.19 of 1948\nThe previous National Identity card numbers should be cancelled of persons who have obtained dual citizenship under Section 19(2), as their citizenship has been revoked and they have reacquired Sri Lankan citizenship. At this point, the previous National Identity card number will be cancelled and a new National Identity card number will be generated and the Department will also issue a letter confirming the change of number.\nDual Citizenship under Section 19(3) of Citizenship Act No 19 of 1948\nAs there is no revocation of citizenship in cases where citizenship has been obtained under Section 19(3), if there is an old National Identity card number that number remains unchanged and the same number can be reacquired.\nDocuments to be submitted by Dual citizens (19(2)\nDuly completed application form (D.R.P/1,7,8 form)\nOriginal or a certified copy of the dual citizenship certificate.\nBirth certificate or extract of the birth registry certified by the Additional District Registrar.\nMarriage certificate attested by Additional District Registrar if applying for husband's name or surname\nICAO standard photograph obtained within 06 month period.\nDocument\nto be submitted for handing over the National Identity card to the Registration of Persons Division of the Divisional Secretariat.\nIf the period between date of obtaining dual citizenship and the date of applying for the National Identity card has exceeded 06 months, a declaration that a National Identity card has not been obtained within the prescribed period and that no application has made for the same.\n(Download the form)\nFees Charged for Issuance of National Identity cards for dual citizens (19(2)\n1.Fees charged for issuance of National Identity cards to dual citizens (19(2)\nRs. 200.00\n2.Fee for sending National Identity card by registered post under normal service.\nRs. 120.00\n3. If the period between date of obtaining dual citizenship and the date of applying for the National Identity card has exceeded 06 months\nRs.2500.00\nThe aforesaid fees can be paid through the certifying officers certifying the application, and the fines should be paid to Shroff of the relevant Divisional Secretariat.\nDocuments to be submitted by Dual Citizens applying for a National Identity cards under Section 19(3) of Citizenship act No 19 of 1948\nIn addition to the documents mentioned under 19(2) above,\nIn case of an amendment of identity card, the previous National Identity Card, if not a police report that the National Identity Card is missing.\nIf a person above the age of 15 years is applying for a National Identity card for the first time, a declaration to be made that a National Identity card has not been obtained within the prescribed period and that no application has made for the same\n(D.R.P/OP/02/3).\nGiving Names to Dual Citizens\nThe name mentioned in the Dual Citizenship certificate submitted is given..\nIf a name different from the name mentioned in the dual citizenship certificate is requested, the name in the dual citizenship certificate should be amended and submitted as per the request.\nIn both the above cases, if the name mentioned in the dual citizenship certificate is different from the name mentioned in the birth certificate, the birth certificate should be amended accordingly and submitted.\nFather’s name/surname along with applicant’s name can be given on request when father’s name/surname is mentioned in the dual citizenship certificate.\nHusband’s name/surname can be given if requested by submitting the marriage certificate,along with the name mentioned in the dual citizenship certificate.\nGiving address to dual citizens\nPersons who are dual citizens of Sri Lanka who have obtained citizenship under Sections 19(2) and 19(3)of Citizenship Act No 19 of 1948 can use the address of a close relative/ close friend in case if they are unable to prove their permanent residence in order to obtain the National Identity card, and the address must be confirmed by form\nD.R.P./OP/01/04\nand apply for the National Identity card.",
+        "list_items": [
+          "Duly completed application form (D.R.P/1,7,8 form)",
+          "Original or a certified copy of the dual citizenship certificate.",
+          "Birth certificate or extract of the birth registry certified by the Additional District Registrar.",
+          "Marriage certificate attested by Additional District Registrar if applying for husband's name or surname",
+          "ICAO standard photograph obtained within 06 month period.",
+          "Documentto be submitted for handing over the National Identity card to the Registration of Persons Division of the Divisional Secretariat.",
+          "If the period between date of obtaining dual citizenship and the date of applying for the National Identity card has exceeded 06 months, a declaration that a National Identity card has not been obtained within the prescribed period and that no application has made for the same.(Download the form)",
+          "In case of an amendment of identity card, the previous National Identity Card, if not a police report that the National Identity Card is missing.",
+          "If a person above the age of 15 years is applying for a National Identity card for the first time, a declaration to be made that a National Identity card has not been obtained within the prescribed period and that no application has made for the same(D.R.P/OP/02/3).",
+          "The name mentioned in the Dual Citizenship certificate submitted is given..",
+          "If a name different from the name mentioned in the dual citizenship certificate is requested, the name in the dual citizenship certificate should be amended and submitted as per the request.",
+          "In both the above cases, if the name mentioned in the dual citizenship certificate is different from the name mentioned in the birth certificate, the birth certificate should be amended accordingly and submitted.",
+          "Father’s name/surname along with applicant’s name can be given on request when father’s name/surname is mentioned in the dual citizenship certificate.",
+          "Husband’s name/surname can be given if requested by submitting the marriage certificate,along with the name mentioned in the dual citizenship certificate."
+        ],
+        "source_url": "https://drp.gov.lk/en/normal.php#v-pills-development-tab",
+        "section": "procedures"
+      },
+      {
+        "service_type": "nic_one_day_service",
+        "content": "Obtaining National Identity card under One Day Service\nUnder the One day service, National Identity cards are issued for people who need to obtain the National Identity cards urgently.\nOne day service is available at the Head Office of the Department of Registration of Persons and at the Galle Provincial office..\r\nApplicants can obtain this service by visiting Terminal D on the 9th floor of the Head Office between 7.30 am to 12.30 pm.\nLevy of Fees/Fines\n1\nFee for issuance of National Identity card for the first time\nRs.200/-\n2\nObtaining an amended National Identity card\nRs.500/-\n3\nObtaining a new National Identity card for a lost National Identity card\nRs.1000/-\n4\nOne day service fee\nRs.2000/-\n5\nPenalty to be paid by an applicant who has not applied for a National Identity card within one year from the date of attaining 15 years of age\nRs.2500/-\n6\nUnder Section 19(2) of the Citizenship Act, penalty for an applicant who does not obtain a National Identity card within six months from the date of issue of the Dual Citizenship certificate.\nRs.2500/-\nThe above fees and fines have to be paid to the shroff at the one day service.\nDocuments to be submitted along with the application\nObtaining National Identity card for the first time\nObtaining an amended National Identity card\nObtaining a new National Identity card for a lost National Identity card\nIssuance of National Identity cards for dual citizens\nAn application can be submitted by meeting the Grama Niladhari with the documents required for each of the above cases.\nIt is mandatory for the applicant to bring “originals” of the above mentioned documents when attending the One day Service.",
+        "list_items": [],
+        "source_url": "https://drp.gov.lk/en/normal.php#v-pills-audit-tab",
+        "section": "procedures"
+      }
+    ],
+    "downloads": [
+      {
+        "name": "සිංහල",
+        "url": "https://drp.gov.lk/../si/downloads.php",
+        "source_url": "https://drp.gov.lk/en/downloads.php",
+        "section": "forms"
+      },
+      {
+        "name": "தமிழ்",
+        "url": "https://drp.gov.lk/../ta/downloads.php",
+        "source_url": "https://drp.gov.lk/en/downloads.php",
+        "section": "forms"
+      },
+      {
+        "name": "Downloads",
+        "url": "https://drp.gov.lk/downloads.php",
+        "source_url": "https://drp.gov.lk/en/downloads.php",
+        "section": "forms"
+      },
+      {
+        "name": "",
+        "url": "https://drp.gov.lk/assets/formats/application.pdf",
+        "source_url": "https://drp.gov.lk/en/downloads.php",
+        "section": "forms"
+      },
+      {
+        "name": "",
+        "url": "https://drp.gov.lk/assets/formats/english_translation.pdf",
+        "source_url": "https://drp.gov.lk/en/downloads.php",
+        "section": "forms"
+      },
+      {
+        "name": "",
+        "url": "https://drp.gov.lk/assets/formats/engtranseng.pdf",
+        "source_url": "https://drp.gov.lk/en/downloads.php",
+        "section": "forms"
+      },
+      {
+        "name": "",
+        "url": "https://drp.gov.lk/assets/formats/0207.pdf",
+        "source_url": "https://drp.gov.lk/en/downloads.php",
+        "section": "forms"
+      },
+      {
+        "name": "",
+        "url": "https://drp.gov.lk/assets/formats/D format/annexure.pdf",
+        "source_url": "https://drp.gov.lk/en/downloads.php",
+        "section": "forms"
+      },
+      {
+        "name": "",
+        "url": "https://drp.gov.lk/assets/downloads/0007.pdf",
+        "source_url": "https://drp.gov.lk/en/downloads.php",
+        "section": "forms"
+      },
+      {
+        "name": "",
+        "url": "https://drp.gov.lk/assets/downloads/D.R.POP023.pdf",
+        "source_url": "https://drp.gov.lk/en/downloads.php",
+        "section": "forms"
+      },
+      {
+        "name": "",
+        "url": "https://drp.gov.lk/assets/downloads/104.pdf",
+        "source_url": "https://drp.gov.lk/en/downloads.php",
+        "section": "forms"
+      },
+      {
+        "name": "",
+        "url": "https://drp.gov.lk/assets/formats/0008.pdf",
+        "source_url": "https://drp.gov.lk/en/downloads.php",
+        "section": "forms"
+      },
+      {
+        "name": "",
+        "url": "https://drp.gov.lk/assets/downloads/23.pdf",
+        "source_url": "https://drp.gov.lk/en/downloads.php",
+        "section": "forms"
+      },
+      {
+        "name": "",
+        "url": "https://drp.gov.lk/assets/downloads/24.pdf",
+        "source_url": "https://drp.gov.lk/en/downloads.php",
+        "section": "forms"
+      },
+      {
+        "name": "",
+        "url": "https://drp.gov.lk/assets/downloads/25.pdf",
+        "source_url": "https://drp.gov.lk/en/downloads.php",
+        "section": "forms"
+      },
+      {
+        "name": "",
+        "url": "https://drp.gov.lk/assets/downloads/7.pdf",
+        "source_url": "https://drp.gov.lk/en/downloads.php",
+        "section": "forms"
+      },
+      {
+        "name": "",
+        "url": "https://drp.gov.lk/assets/downloads/9.pdf",
+        "source_url": "https://drp.gov.lk/en/downloads.php",
+        "section": "forms"
+      },
+      {
+        "name": "",
+        "url": "https://drp.gov.lk/assets/downloads/24.pdf",
+        "source_url": "https://drp.gov.lk/en/downloads.php",
+        "section": "forms"
+      },
+      {
+        "name": "",
+        "url": "https://drp.gov.lk/assets/downloads/9.pdf",
+        "source_url": "https://drp.gov.lk/en/downloads.php",
+        "section": "forms"
+      },
+      {
+        "name": "",
+        "url": "https://drp.gov.lk/assets/downloads/10.pdf",
+        "source_url": "https://drp.gov.lk/en/downloads.php",
+        "section": "forms"
+      },
+      {
+        "name": "",
+        "url": "https://drp.gov.lk/assets/downloads/11.pdf",
+        "source_url": "https://drp.gov.lk/en/downloads.php",
+        "section": "forms"
+      },
+      {
+        "name": "",
+        "url": "https://drp.gov.lk/assets/downloads/12.pdf",
+        "source_url": "https://drp.gov.lk/en/downloads.php",
+        "section": "forms"
+      },
+      {
+        "name": "",
+        "url": "https://drp.gov.lk/assets/downloads/13.png",
+        "source_url": "https://drp.gov.lk/en/downloads.php",
+        "section": "forms"
+      },
+      {
+        "name": "",
+        "url": "https://drp.gov.lk/assets/downloads/14.png",
+        "source_url": "https://drp.gov.lk/en/downloads.php",
+        "section": "forms"
+      },
+      {
+        "name": "",
+        "url": "https://drp.gov.lk/assets/downloads/15.pdf",
+        "source_url": "https://drp.gov.lk/en/downloads.php",
+        "section": "forms"
+      },
+      {
+        "name": "",
+        "url": "https://drp.gov.lk/assets/downloads/16.pdf",
+        "source_url": "https://drp.gov.lk/en/downloads.php",
+        "section": "forms"
+      },
+      {
+        "name": "",
+        "url": "https://drp.gov.lk/assets/downloads/17.pdf",
+        "source_url": "https://drp.gov.lk/en/downloads.php",
+        "section": "forms"
+      },
+      {
+        "name": "",
+        "url": "https://drp.gov.lk/assets/downloads/19.pdf",
+        "source_url": "https://drp.gov.lk/en/downloads.php",
+        "section": "forms"
+      },
+      {
+        "name": "",
+        "url": "https://drp.gov.lk/assets/downloads/20.pdf",
+        "source_url": "https://drp.gov.lk/en/downloads.php",
+        "section": "forms"
+      },
+      {
+        "name": "",
+        "url": "https://drp.gov.lk/assets/downloads/rules/RPD ACT NO 32 OF 1968.pdf",
+        "source_url": "https://drp.gov.lk/en/downloads.php",
+        "section": "forms"
+      },
+      {
+        "name": "",
+        "url": "https://drp.gov.lk/assets/downloads/rules/08-2016_E.pdf",
+        "source_url": "https://drp.gov.lk/en/downloads.php",
+        "section": "forms"
+      },
+      {
+        "name": "",
+        "url": "https://drp.gov.lk/assets/downloads/rules/2015 english.pdf",
+        "source_url": "https://drp.gov.lk/en/downloads.php",
+        "section": "forms"
+      },
+      {
+        "name": "",
+        "url": "https://drp.gov.lk/assets/downloads/rules/2017 english.pdf",
+        "source_url": "https://drp.gov.lk/en/downloads.php",
+        "section": "forms"
+      }
+    ]
+  }
+}
