@@ -7,6 +7,11 @@ from app.auth_utils import hash_password, verify_password, create_access_token, 
 
 router = APIRouter()
 
+
+def user_payload(user: User) -> dict:
+    """Public user fields sent to the frontend."""
+    return {"id": user.id, "email": user.email, "name": user.name, "role": user.role}
+
 class RegisterRequest(BaseModel):
     name: str
     email: str
@@ -42,7 +47,7 @@ def register(request: RegisterRequest, db: Session = Depends(get_db)):
     return AuthResponse(
         access_token=token,
         token_type="bearer",
-        user={"id": new_user.id, "email": new_user.email, "name": new_user.name}
+        user=user_payload(new_user)
     )
 
 @router.post("/auth/login", response_model=AuthResponse)
@@ -57,14 +62,10 @@ def login(request: LoginRequest, db: Session = Depends(get_db)):
     return AuthResponse(
         access_token=token,
         token_type="bearer",
-        user={"id": user.id, "email": user.email, "name": user.name}
+        user=user_payload(user)
     )
 
 @router.get("/auth/me")
 def get_me(current_user: User = Depends(get_current_user)):
     """Get the currently logged-in user profile."""
-    return {
-        "id": current_user.id,
-        "email": current_user.email,
-        "name": current_user.name
-    }
+    return user_payload(current_user)

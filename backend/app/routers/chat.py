@@ -1,5 +1,7 @@
+import logging
+
 from fastapi import APIRouter, HTTPException, Depends
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from typing import Any
 from sqlalchemy.orm import Session
 import uuid
@@ -10,10 +12,13 @@ from app.auth_utils import get_optional_user
 from app.models import User, ChatSession, ChatMessage, SavedWorkflow
 
 router = APIRouter()
+logger = logging.getLogger(__name__)
+
+MAX_MESSAGE_LENGTH = 2000
 
 class ChatRequest(BaseModel):
-    thread_id: str
-    message: str
+    thread_id: str = Field(min_length=1, max_length=100)
+    message: str = Field(min_length=1, max_length=MAX_MESSAGE_LENGTH)
 
 class ChatResponse(BaseModel):
     reply: str
@@ -33,6 +38,12 @@ def chat_endpoint(
     """
     # 1. Handle DB Session for Chat History
     chat_session = db.query(ChatSession).filter(ChatSession.thread_id == request.thread_id).first()
+
+    # A thread that belongs to a user can only be continued by that user.
+    # 404 rather than 403 so we don't reveal that the thread exists.
+    if chat_session and chat_session.user_id is not None:
+        if current_user is None or current_user.id != chat_session.user_id:
+            raise HTTPException(status_code=404, detail="Conversation not found")
     
     if not chat_session:
         # Create a new session
@@ -110,6 +121,9 @@ def chat_endpoint(
             questions_progress=state.get("questions_progress")
         )
 
-    except Exception as e:
-        print(f"Error in chat endpoint: {e}")
-        raise HTTPException(status_code=500, detail=str(e))
+    except Exception:
+        logger.exception("Chat failed for thread %s", request.thread_id)
+        raise HTTPException(
+            status_code=500,
+            detail="Sorry, something went wrong while answering. Please try again.",
+        )

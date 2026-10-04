@@ -2,6 +2,7 @@
 GovFlow AI — FastAPI Application
 """
 
+import logging
 import os
 
 from dotenv import load_dotenv
@@ -10,6 +11,11 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.routers import services, chat, admin, auth, feedback, history
 
 load_dotenv()
+
+logging.basicConfig(
+    level=os.getenv("LOG_LEVEL", "INFO"),
+    format="%(asctime)s %(levelname)s %(name)s: %(message)s",
+)
 
 # Comma-separated list, e.g. "http://localhost:3000,https://govflow.lk"
 CORS_ORIGINS = [

@@ -1,10 +1,16 @@
+import logging
+
 from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy.orm import Session
 from app.database import get_db
 from app.models import Service, Question, WorkflowStep, RequiredDocument, SourceDocument, DocumentChunk
 from app.services.ingestion import run_scrape_and_sync, get_knowledge_base_stats
+from app.auth_utils import require_admin
 
-router = APIRouter()
+logger = logging.getLogger(__name__)
+
+# Every route on this router requires a logged-in admin
+router = APIRouter(dependencies=[Depends(require_admin)])
 
 @router.get("/admin/dashboard")
 def get_dashboard_stats(db: Session = Depends(get_db)):
@@ -54,14 +60,16 @@ def trigger_scrape_sync(
     try:
         result = run_scrape_and_sync(db=db, site_key=site, force_live=force_live)
         return result
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Scrape & sync failed: {str(e)}")
+    except Exception:
+        logger.exception("Scrape & sync failed for site=%s", site)
+        raise HTTPException(status_code=500, detail="Scrape & sync failed. Check server logs.")
 
 @router.get("/admin/knowledge-base/stats")
 def get_kb_stats(db: Session = Depends(get_db)):
     """Get vector knowledge base statistics, document breakdown, and last sync timestamp."""
     try:
         return get_knowledge_base_stats(db)
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Failed to fetch KB stats: {str(e)}")
+    except Exception:
+        logger.exception("Failed to fetch knowledge base stats")
+        raise HTTPException(status_code=500, detail="Failed to fetch knowledge base stats.")
 

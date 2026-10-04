@@ -1,11 +1,31 @@
 "use client";
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext, useCallback } from 'react';
 import Header from '../../components/layout/Header';
+import { AuthContext } from '../../context/AuthContext';
 import './admin.css';
 import Link from 'next/link';
 
+async function loadAdminData(token) {
+  const headers = { Authorization: `Bearer ${token}` };
+  const getJson = (path) =>
+    fetch(`http://localhost:8000/api/v1/admin/${path}`, { headers }).then(res => {
+      if (!res.ok) throw new Error(`Admin request failed: ${res.status}`);
+      return res.json();
+    });
+
+  const [statsData, servicesData, kbData] = await Promise.all([
+    getJson('dashboard'),
+    getJson('services'),
+    getJson('knowledge-base/stats'),
+  ]);
+  return { statsData, servicesData, kbData };
+}
+
 export default function AdminDashboard() {
+  const { user, token, loading: authLoading } = useContext(AuthContext);
+  const isAdmin = user?.role === 'admin';
+
   const [stats, setStats] = useState(null);
   const [services, setServices] = useState([]);
   const [kbStats, setKbStats] = useState(null);
@@ -17,26 +37,23 @@ export default function AdminDashboard() {
   const [syncResult, setSyncResult] = useState(null);
   const [syncError, setSyncError] = useState(null);
 
-  const fetchDashboardData = async () => {
-    try {
-      const [statsData, servicesData, kbData] = await Promise.all([
-        fetch('http://localhost:8000/api/v1/admin/dashboard').then(res => res.json()),
-        fetch('http://localhost:8000/api/v1/admin/services').then(res => res.json()),
-        fetch('http://localhost:8000/api/v1/admin/knowledge-base/stats').then(res => res.json())
-      ]);
-      setStats(statsData);
-      setServices(servicesData);
-      setKbStats(kbData);
-      setLoading(false);
-    } catch (err) {
-      console.error("Admin fetch error:", err);
-      setLoading(false);
-    }
-  };
+  const fetchDashboardData = useCallback(
+    () => loadAdminData(token)
+      .then(({ statsData, servicesData, kbData }) => {
+        setStats(statsData);
+        setServices(servicesData);
+        setKbStats(kbData);
+      })
+      .catch(err => console.error("Admin fetch error:", err))
+      .finally(() => setLoading(false)),
+    [token]
+  );
 
   useEffect(() => {
+    // The page is only usable by admins; the API enforces this too, the UI check just avoids a broken screen.
+    if (!isAdmin) return;
     fetchDashboardData();
-  }, []);
+  }, [isAdmin, fetchDashboardData]);
 
   const handleScrapeAndSync = async () => {
     setIsSyncing(true);
@@ -46,6 +63,7 @@ export default function AdminDashboard() {
     try {
       const res = await fetch(`http://localhost:8000/api/v1/admin/scrape-sync?force_live=${forceLive}`, {
         method: 'POST',
+        headers: { Authorization: `Bearer ${token}` },
       });
 
       if (!res.ok) {
@@ -65,7 +83,26 @@ export default function AdminDashboard() {
     }
   };
 
-  if (loading) {
+  if (!authLoading && !isAdmin) {
+    return (
+      <>
+        <Header />
+        <main className="admin-content">
+          <div className="admin-main fade-in">
+            <h1>Admins only</h1>
+            <p className="admin-subtitle">
+              {user ? "Your account doesn't have admin access." : "Please log in with an admin account."}
+            </p>
+            <Link href={user ? "/" : "/login"} style={{ color: 'var(--primary-light)' }}>
+              {user ? "← Back to chat" : "Go to login →"}
+            </Link>
+          </div>
+        </main>
+      </>
+    );
+  }
+
+  if (authLoading || loading) {
     return (
       <>
         <Header />
