@@ -53,8 +53,8 @@ export default function Services() {
                       </svg>
                     </div>
                     <div>
-                      <div className="service-dept">{svc.department_id ? "Official Procedure" : "GovFlow Verified"}</div>
-                      <h2 className="service-title">{svc.name}</h2>
+                      <div className="service-dept">{svc.department?.name_en || "Official Procedure"}</div>
+                      <h2 className="service-title">{svc.title_en}</h2>
                     </div>
                     <p className="service-desc">{svc.description || "Get an interactive step-by-step guide for this service using GovFlow AI."}</p>
                     

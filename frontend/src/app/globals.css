@@ -10,6 +10,17 @@
   --glass-border: rgba(255, 255, 255, 0.08);
   --glass-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
   --gradient: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+
+  /* Aliases used by page stylesheets — keep them pointing at the tokens above */
+  --primary-color: var(--primary);
+  --accent-primary: var(--primary);
+  --primary-light: #60a5fa;
+  --background: var(--bg-color);
+  --text-primary: var(--text-main);
+  --text-secondary: var(--text-muted);
+  --surface: rgba(30, 41, 59, 0.8);
+  --surface-light: var(--glass-bg);
+  --border-color: var(--glass-border);
 }
 
 * {

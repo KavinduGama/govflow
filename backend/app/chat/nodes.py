@@ -1,6 +1,6 @@
 import json
 from langchain_openai import ChatOpenAI
-from langchain_core.messages import SystemMessage, ToolMessage
+from langchain_core.messages import HumanMessage, SystemMessage, ToolMessage
 from langgraph.prebuilt import ToolNode
 
 from app.chat.state import ConversationState
@@ -60,34 +60,34 @@ def agent_node(state: ConversationState):
     """
     The core agent node that decides what to do next.
     """
-    print("--> [Node] Agent Thinking...")
     messages = state["messages"]
-    
+
     # Prepend system prompt if it's the first turn (or we can just dynamically inject it)
     if not messages or not isinstance(messages[0], SystemMessage):
         messages = [SystemMessage(content=get_dynamic_system_prompt())] + messages
-        
-    print(f"DEBUG MESSAGES COUNT: {len(messages)}")
-    for m in messages:
-        print(f"  - {m.type}: {m.content[:50]}")
-        
+
     response = llm_with_tools.invoke(messages)
-    
-    # Check if a tool returned the final workflow
-    final_workflow_data = state.get("final_workflow")
-    
-    # We look through the history backwards to find the latest generate_workflow_plan
+
+    return {
+        "messages": [response],
+        "final_workflow": find_workflow_in_current_turn(messages)
+    }
+
+def find_workflow_in_current_turn(messages) -> dict | None:
+    """
+    Return the workflow produced by `generate_workflow_plan` during the CURRENT turn only.
+
+    A turn starts at the latest HumanMessage. Looking further back would re-attach an
+    old plan to every later reply in the same conversation.
+    """
     for msg in reversed(messages):
+        if isinstance(msg, HumanMessage):
+            break
         if isinstance(msg, ToolMessage) and msg.name == "generate_workflow_plan":
             try:
                 workflow_json = json.loads(msg.content)
-                if "steps" in workflow_json:
-                    final_workflow_data = workflow_json
-                    break
             except json.JSONDecodeError:
-                pass
-    
-    return {
-        "messages": [response],
-        "final_workflow": final_workflow_data
-    }
+                continue
+            if "steps" in workflow_json:
+                return workflow_json
+    return None

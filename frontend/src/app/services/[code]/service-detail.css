@@ -74,6 +74,24 @@
   font-size: 1.1rem;
 }
 
+.service-facts {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.service-facts strong {
+  color: var(--text-primary);
+}
+
+.service-facts a {
+  color: var(--accent-primary, inherit);
+  word-break: break-all;
+}
+
 .action-card {
   background: var(--surface-light);
   border: 1px solid var(--border-color);

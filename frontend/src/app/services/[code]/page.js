@@ -1,12 +1,12 @@
 "use client";
 
-import { useState, useEffect } from 'react';
+import { use, useState, useEffect } from 'react';
 import Header from '../../../components/layout/Header';
 import './service-detail.css';
 import Link from 'next/link';
 
 export default function ServiceDetail({ params }) {
-  const { code } = params;
+  const { code } = use(params);
   const [service, setService] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -46,7 +46,7 @@ export default function ServiceDetail({ params }) {
         <main className="main-content">
           <div className="error-container fade-in">
             <h2>Oops! Service Not Found</h2>
-            <p>We couldn't find the requested service: {code}</p>
+            <p>We couldn&apos;t find the requested service: {code}</p>
             <Link href="/services" className="back-link">← Back to Services</Link>
           </div>
         </main>
@@ -72,7 +72,7 @@ export default function ServiceDetail({ params }) {
               </svg>
             </div>
             <div>
-              <span className="badge">{service.department_id ? "Official Procedure" : "Verified"}</span>
+              <span className="badge">{service.department?.name_en || "Official Procedure"}</span>
               <h1 className="service-title-lg">{service.title_en}</h1>
             </div>
           </div>
@@ -80,8 +80,24 @@ export default function ServiceDetail({ params }) {
           <div className="service-content">
             <div className="content-section">
               <h2>About this Service</h2>
-              <p>{service.description_en}</p>
+              <p>{service.description}</p>
             </div>
+
+            {(service.fee_description || service.processing_time || service.department?.hotline) && (
+              <div className="content-section">
+                <h2>At a glance</h2>
+                <ul className="service-facts">
+                  {service.fee_description && <li><strong>Fees:</strong> {service.fee_description}</li>}
+                  {service.processing_time && <li><strong>Processing time:</strong> {service.processing_time}</li>}
+                  {service.department?.hotline && <li><strong>Hotline:</strong> {service.department.hotline}</li>}
+                  {service.department?.website_url && (
+                    <li><strong>Official website:</strong>{' '}
+                      <a href={service.department.website_url} target="_blank" rel="noopener noreferrer">{service.department.website_url}</a>
+                    </li>
+                  )}
+                </ul>
+              </div>
+            )}
 
             <div className="action-card">
               <h3>Need guidance?</h3>
