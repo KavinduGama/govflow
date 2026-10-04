@@ -128,7 +128,9 @@ function ChatInner() {
           headers,
           body: JSON.stringify({
             thread_id: threadId,
-            message: userMessage
+            message: userMessage,
+            // Only used by the backend when this message starts a new conversation
+            service_code: initialService || undefined,
           })
         });
   

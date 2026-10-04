@@ -9,7 +9,7 @@ import uuid
 from app.chat.graph import get_chat_graph
 from app.database import get_db
 from app.auth_utils import get_optional_user
-from app.models import User, ChatSession, ChatMessage, SavedWorkflow
+from app.models import User, ChatSession, ChatMessage, SavedWorkflow, Service
 from app.rate_limit import limiter, CHAT_LIMIT
 
 router = APIRouter()
@@ -20,6 +20,8 @@ MAX_MESSAGE_LENGTH = 2000
 class ChatRequest(BaseModel):
     thread_id: str = Field(min_length=1, max_length=100)
     message: str = Field(min_length=1, max_length=MAX_MESSAGE_LENGTH)
+    # Set when the chat was opened from a service page (/?service=...); only used for a new thread
+    service_code: str | None = Field(default=None, max_length=50)
 
 class ChatResponse(BaseModel):
     reply: str
@@ -49,18 +51,36 @@ def chat_endpoint(
         if current_user is None or current_user.id != chat_session.user_id:
             raise HTTPException(status_code=404, detail="Conversation not found")
     
+    new_messages = []
+
     if not chat_session:
+        # Only trust service codes that exist; anything else is ignored, not passed to the model
+        service = None
+        if body.service_code:
+            service = db.query(Service).filter(Service.service_code == body.service_code).first()
+
         # Create a new session
         title = body.message[:50] + "..." if len(body.message) > 50 else body.message
         chat_session = ChatSession(
             thread_id=body.thread_id,
             title=title,
-            user_id=current_user.id if current_user else None
+            user_id=current_user.id if current_user else None,
+            service_code=service.service_code if service else None,
         )
         db.add(chat_session)
         db.commit()
         db.refresh(chat_session)
-    
+
+        if service:
+            new_messages.append({
+                "role": "system",
+                "content": (
+                    f'The user opened this chat from the "{service.title_en}" service page '
+                    f'(service_code: {service.service_code}). Assume this is the procedure they want '
+                    "unless they say otherwise, and start by calling get_eligibility_questions for it."
+                ),
+            })
+
     # Save User Message to DB
     user_msg = ChatMessage(session_id=chat_session.id, role="user", content=body.message)
     db.add(user_msg)
@@ -68,10 +88,9 @@ def chat_endpoint(
 
     # 2. Run LangGraph
     config = {"configurable": {"thread_id": body.thread_id}}
-    
-    initial_input = {
-        "messages": [{"role": "user", "content": body.message}]
-    }
+
+    new_messages.append({"role": "user", "content": body.message})
+    initial_input = {"messages": new_messages}
     
     try:
         chat_graph = get_chat_graph()

@@ -45,6 +45,9 @@ INSTRUCTIONS FOR PROCEDURES:
 - If a user asks to do something, find the matching service code above and first call `get_eligibility_questions(service_code)`.
 - Then, ask the user the questions ONE BY ONE. Do not overwhelm them.
 - When the user answers your question, store that answer in your context.
+- Users may answer in Sinhala, Tamil or Singlish (e.g. "ow" = yes, "naha" = no, "ඔව්" = yes, "ஆம்" = yes). Accept these as valid answers; do not ask again.
+- Each question has an `answer_type`: send booleans as true/false and numbers as numbers in `user_answers_json`.
+- If `generate_workflow_plan` returns an error with `missing_questions`, ask the user those questions, then call it again.
 - Once you have collected the answers to ALL the questions returned by `get_eligibility_questions`, YOU MUST call `generate_workflow_plan` with a JSON string of their answers.
 - Do NOT generate the workflow yourself. You must use the `generate_workflow_plan` tool.
 - The `generate_workflow_plan` tool returns a JSON object. 
@@ -68,9 +71,10 @@ def agent_node(state: ConversationState):
     """
     messages = state["messages"]
 
-    # Prepend system prompt if it's the first turn (or we can just dynamically inject it)
-    if not messages or not isinstance(messages[0], SystemMessage):
-        messages = [SystemMessage(content=get_dynamic_system_prompt())] + messages
+    # The main prompt is never saved in the conversation state, so add it on every call.
+    # (Checking "is messages[0] a SystemMessage?" would wrongly skip it whenever the
+    # conversation itself starts with a system note, e.g. the service-page context.)
+    messages = [SystemMessage(content=get_dynamic_system_prompt())] + messages
 
     response = llm_with_tools.invoke(messages)
 

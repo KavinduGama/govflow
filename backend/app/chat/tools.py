@@ -8,7 +8,8 @@ from sqlalchemy.orm import Session
 from app.database import SessionLocal
 from app.models import Service, Question
 from app.chat.retriever import search_chunks
-from app.engines.workflow_engine import WorkflowEngine
+from app.engines.workflow_engine import MissingAnswersError, WorkflowEngine
+from app.shared.answer_normalizer import InvalidAnswerError
 
 logger = logging.getLogger(__name__)
 
@@ -47,9 +48,12 @@ def get_eligibility_questions(service_code: str) -> str:
             q_list.append({
                 "question_key": q.question_key,
                 "question_text": q.question_text,
+                # Tells the model what value to pass back: boolean -> true/false, number -> a number
+                "answer_type": q.answer_type,
+                "help_text": q.help_text,
                 "condition": q.condition_json
             })
-            
+
         return json.dumps({"service": service.title_en, "questions": q_list}, indent=2)
     finally:
         db.close()
@@ -70,6 +74,16 @@ def generate_workflow_plan(service_code: str, user_answers_json: str) -> str:
         return json.dumps(dataclasses.asdict(result), indent=2)
     except json.JSONDecodeError:
         return json.dumps({"error": "user_answers_json must be a valid JSON object."})
+    # These two are the model's mistakes, not crashes: tell it exactly how to recover
+    except MissingAnswersError as e:
+        return json.dumps({
+            "error": "Some required questions are unanswered. Ask the user these, then call this tool again.",
+            "missing_questions": e.question_texts,
+        })
+    except InvalidAnswerError as e:
+        return json.dumps({
+            "error": f"The answer for '{e.question_key}' must be {e.expected}. Ask the user again.",
+        })
     except Exception:
         # The model sees this text, and may repeat it to the user — never include internals.
         logger.exception("generate_workflow_plan failed for %s", service_code)
