@@ -2,9 +2,21 @@
 GovFlow AI — FastAPI Application
 """
 
+import os
+
+from dotenv import load_dotenv
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.routers import services, chat, admin, auth, feedback, history
+
+load_dotenv()
+
+# Comma-separated list, e.g. "http://localhost:3000,https://govflow.lk"
+CORS_ORIGINS = [
+    origin.strip()
+    for origin in os.getenv("CORS_ORIGINS", "http://localhost:3000").split(",")
+    if origin.strip()
+]
 
 app = FastAPI(
     title="GovFlow AI API",
@@ -15,7 +27,7 @@ app = FastAPI(
 # CORS — allows the Next.js frontend (on a different port) to call this API
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],  # Next.js dev server
+    allow_origins=CORS_ORIGINS,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
