@@ -4,13 +4,14 @@ import { useState, useEffect } from 'react';
 import Header from '../../components/layout/Header';
 import './services.css';
 import Link from 'next/link';
+import { API_URL } from "@/lib/api";
 
 export default function Services() {
   const [services, setServices] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('http://localhost:8000/api/v1/services')
+    fetch(`${API_URL}/services`)
       .then(res => res.json())
       .then(data => {
         setServices(data.services || []);

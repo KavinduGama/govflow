@@ -7,6 +7,7 @@ import { AuthContext } from "../../context/AuthContext";
 import Header from "../../components/layout/Header";
 import WorkflowSidebar from "../../components/WorkflowSidebar";
 import "./history.css";
+import { API_URL } from "@/lib/api";
 
 export default function History() {
   const { user, token, loading } = useContext(AuthContext);
@@ -34,7 +35,7 @@ export default function History() {
     setIsLoading(true);
     try {
       const endpoint = activeTab === "chats" ? "/history/chats" : "/history/plans";
-      const res = await fetch(`http://localhost:8000/api/v1${endpoint}`, {
+      const res = await fetch(`${API_URL}${endpoint}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       if (res.ok) {
@@ -54,7 +55,7 @@ export default function History() {
     if (!confirm("Are you sure you want to delete this chat history?")) return;
     
     try {
-      const res = await fetch(`http://localhost:8000/api/v1/history/chats/${threadId}`, {
+      const res = await fetch(`${API_URL}/history/chats/${threadId}`, {
         method: "DELETE",
         headers: { Authorization: `Bearer ${token}` }
       });
@@ -71,7 +72,7 @@ export default function History() {
     if (!confirm("Are you sure you want to delete this saved plan?")) return;
     
     try {
-      const res = await fetch(`http://localhost:8000/api/v1/history/plans/${planId}`, {
+      const res = await fetch(`${API_URL}/history/plans/${planId}`, {
         method: "DELETE",
         headers: { Authorization: `Bearer ${token}` }
       });

@@ -69,3 +69,12 @@ def test_anonymous_cannot_continue_owned_thread(client, db_session, make_user):
 def test_chat_rejects_oversized_message(client):
     res = client.post("/api/v1/chat", json={"thread_id": "t1", "message": "x" * 2001})
     assert res.status_code == 422
+
+
+# ---------- Rate limiting ----------
+
+def test_login_is_rate_limited(client):
+    credentials = {"email": "nobody@example.com", "password": "wrong-password"}
+    statuses = [client.post("/api/v1/auth/login", json=credentials).status_code for _ in range(11)]
+    assert statuses[:10] == [401] * 10  # wrong password, but allowed to try
+    assert statuses[10] == 429          # 11th attempt within a minute is blocked

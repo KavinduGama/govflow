@@ -1,4 +1,6 @@
 import json
+import os
+
 from langchain_openai import ChatOpenAI
 from langchain_core.messages import HumanMessage, SystemMessage, ToolMessage
 from langgraph.prebuilt import ToolNode
@@ -14,7 +16,11 @@ from app.chat.tools import (
 tools = [search_knowledge_base, get_eligibility_questions, generate_workflow_plan]
 
 # 2. Initialize the LLM and bind the tools
-llm = ChatOpenAI(model="gpt-5.5")
+llm = ChatOpenAI(
+    model=os.getenv("CHAT_MODEL", "gpt-5.5"),
+    timeout=float(os.getenv("LLM_TIMEOUT_SECONDS", "60")),  # never hang a request forever
+    max_retries=int(os.getenv("LLM_MAX_RETRIES", "2")),       # retries 429s / 5xx with backoff
+)
 llm_with_tools = llm.bind_tools(tools)
 
 # 3. Create the ToolNode (handles executing the tools automatically)

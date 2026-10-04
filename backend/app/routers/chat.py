@@ -1,15 +1,16 @@
 import logging
 
-from fastapi import APIRouter, HTTPException, Depends
+from fastapi import APIRouter, HTTPException, Depends, Request
 from pydantic import BaseModel, Field
 from typing import Any
 from sqlalchemy.orm import Session
 import uuid
 
-from app.chat.graph import chat_graph
+from app.chat.graph import get_chat_graph
 from app.database import get_db
 from app.auth_utils import get_optional_user
 from app.models import User, ChatSession, ChatMessage, SavedWorkflow
+from app.rate_limit import limiter, CHAT_LIMIT
 
 router = APIRouter()
 logger = logging.getLogger(__name__)
@@ -27,8 +28,11 @@ class ChatResponse(BaseModel):
     questions_progress: dict[str, int] | None
 
 @router.post("/chat", response_model=ChatResponse)
+@limiter.limit(CHAT_LIMIT)
 def chat_endpoint(
-    request: ChatRequest, 
+    request: Request,
+    body: ChatRequest,
+    
     db: Session = Depends(get_db),
     current_user: User | None = Depends(get_optional_user)
 ):
@@ -37,7 +41,7 @@ def chat_endpoint(
     Saves the messages to the database.
     """
     # 1. Handle DB Session for Chat History
-    chat_session = db.query(ChatSession).filter(ChatSession.thread_id == request.thread_id).first()
+    chat_session = db.query(ChatSession).filter(ChatSession.thread_id == body.thread_id).first()
 
     # A thread that belongs to a user can only be continued by that user.
     # 404 rather than 403 so we don't reveal that the thread exists.
@@ -47,9 +51,9 @@ def chat_endpoint(
     
     if not chat_session:
         # Create a new session
-        title = request.message[:50] + "..." if len(request.message) > 50 else request.message
+        title = body.message[:50] + "..." if len(body.message) > 50 else body.message
         chat_session = ChatSession(
-            thread_id=request.thread_id,
+            thread_id=body.thread_id,
             title=title,
             user_id=current_user.id if current_user else None
         )
@@ -58,18 +62,19 @@ def chat_endpoint(
         db.refresh(chat_session)
     
     # Save User Message to DB
-    user_msg = ChatMessage(session_id=chat_session.id, role="user", content=request.message)
+    user_msg = ChatMessage(session_id=chat_session.id, role="user", content=body.message)
     db.add(user_msg)
     db.commit()
 
     # 2. Run LangGraph
-    config = {"configurable": {"thread_id": request.thread_id}}
+    config = {"configurable": {"thread_id": body.thread_id}}
     
     initial_input = {
-        "messages": [{"role": "user", "content": request.message}]
+        "messages": [{"role": "user", "content": body.message}]
     }
     
     try:
+        chat_graph = get_chat_graph()
         for event in chat_graph.stream(initial_input, config=config):
             for node_name, state_update in event.items():
                 pass 
@@ -122,7 +127,7 @@ def chat_endpoint(
         )
 
     except Exception:
-        logger.exception("Chat failed for thread %s", request.thread_id)
+        logger.exception("Chat failed for thread %s", body.thread_id)
         raise HTTPException(
             status_code=500,
             detail="Sorry, something went wrong while answering. Please try again.",

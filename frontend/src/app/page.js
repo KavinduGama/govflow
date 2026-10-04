@@ -7,6 +7,7 @@ import ReactMarkdown from 'react-markdown';
 import WorkflowSidebar from '../components/WorkflowSidebar';
 import { AuthContext } from '../context/AuthContext';
 import './chat.css';
+import { API_URL } from "@/lib/api";
 
 // Simple UUID generator for browser
 function generateUUID() {
@@ -38,7 +39,7 @@ function ChatInner() {
   // Fetch history list
   useEffect(() => {
     if (token) {
-      fetch('http://localhost:8000/api/v1/history/chats', {
+      fetch(`${API_URL}/history/chats`, {
         headers: { Authorization: `Bearer ${token}` }
       })
       .then(res => res.ok ? res.json() : [])
@@ -55,7 +56,7 @@ function ChatInner() {
         const fetchHistory = async () => {
             if (!token) return;
             try {
-                const res = await fetch(`http://localhost:8000/api/v1/history/chats/${historyThreadId}`, {
+                const res = await fetch(`${API_URL}/history/chats/${historyThreadId}`, {
                     headers: { Authorization: `Bearer ${token}` }
                 });
                 if (res.ok) {
@@ -122,7 +123,7 @@ function ChatInner() {
         const headers = { 'Content-Type': 'application/json' };
         if (token) headers['Authorization'] = `Bearer ${token}`;
 
-        const response = await fetch('http://localhost:8000/api/v1/chat', {
+        const response = await fetch(`${API_URL}/chat`, {
           method: 'POST',
           headers,
           body: JSON.stringify({
@@ -162,7 +163,7 @@ function ChatInner() {
 
   const submitFeedback = async (isPositive) => {
     try {
-      await fetch('http://localhost:8000/api/v1/feedback', {
+      await fetch(`${API_URL}/feedback`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

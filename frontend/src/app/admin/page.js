@@ -5,11 +5,12 @@ import Header from '../../components/layout/Header';
 import { AuthContext } from '../../context/AuthContext';
 import './admin.css';
 import Link from 'next/link';
+import { API_URL } from "@/lib/api";
 
 async function loadAdminData(token) {
   const headers = { Authorization: `Bearer ${token}` };
   const getJson = (path) =>
-    fetch(`http://localhost:8000/api/v1/admin/${path}`, { headers }).then(res => {
+    fetch(`${API_URL}/admin/${path}`, { headers }).then(res => {
       if (!res.ok) throw new Error(`Admin request failed: ${res.status}`);
       return res.json();
     });
@@ -61,7 +62,7 @@ export default function AdminDashboard() {
     setSyncResult(null);
 
     try {
-      const res = await fetch(`http://localhost:8000/api/v1/admin/scrape-sync?force_live=${forceLive}`, {
+      const res = await fetch(`${API_URL}/admin/scrape-sync?force_live=${forceLive}`, {
         method: 'POST',
         headers: { Authorization: `Bearer ${token}` },
       });

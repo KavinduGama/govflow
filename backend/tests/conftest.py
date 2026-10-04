@@ -4,6 +4,7 @@ import os
 # and the chat agent builds its OpenAI client at import time (no calls are made in tests).
 os.environ.setdefault("JWT_SECRET_KEY", "test-secret-key")
 os.environ.setdefault("OPENAI_API_KEY", "test-key")
+os.environ.setdefault("CHAT_CHECKPOINTER", "memory")  # never touch the real Postgres from tests
 
 import pytest  # noqa: E402
 from fastapi.testclient import TestClient  # noqa: E402
@@ -15,6 +16,7 @@ from app.auth_utils import create_access_token, hash_password  # noqa: E402
 from app.database import Base, get_db  # noqa: E402
 from app.main import app  # noqa: E402
 from app.models import User  # noqa: E402
+from app.rate_limit import limiter  # noqa: E402
 
 
 @pytest.fixture
@@ -34,6 +36,7 @@ def db_session():
 @pytest.fixture
 def client(db_session):
     app.dependency_overrides[get_db] = lambda: db_session
+    limiter.reset()  # rate-limit counters are global; start every test from zero
     yield TestClient(app)
     app.dependency_overrides.clear()
 

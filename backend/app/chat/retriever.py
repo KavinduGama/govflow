@@ -10,7 +10,8 @@ _client = None
 def _get_client():
     global _client
     if _client is None:
-        _client = OpenAI()
+        # Embedding calls are small; fail fast instead of holding the chat request open
+        _client = OpenAI(timeout=15.0, max_retries=2)
     return _client
 
 def get_embedding(text: str) -> list[float]:

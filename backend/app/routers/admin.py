@@ -1,11 +1,12 @@
 import logging
 
-from fastapi import APIRouter, Depends, HTTPException, Query
+from fastapi import APIRouter, Depends, HTTPException, Query, Request
 from sqlalchemy.orm import Session
 from app.database import get_db
 from app.models import Service, Question, WorkflowStep, RequiredDocument, SourceDocument, DocumentChunk
 from app.services.ingestion import run_scrape_and_sync, get_knowledge_base_stats
 from app.auth_utils import require_admin
+from app.rate_limit import limiter, SCRAPE_SYNC_LIMIT
 
 logger = logging.getLogger(__name__)
 
@@ -47,7 +48,9 @@ def get_admin_service_details(service_code: str, db: Session = Depends(get_db)):
     }
 
 @router.post("/admin/scrape-sync")
+@limiter.limit(SCRAPE_SYNC_LIMIT)
 def trigger_scrape_sync(
+    request: Request,
     site: str = Query(default="nic", description="Site key to scrape/sync, e.g. 'nic'"),
     force_live: bool = Query(default=True, description="Whether to attempt live scraping before sync"),
     db: Session = Depends(get_db)

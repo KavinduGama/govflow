@@ -6,6 +6,7 @@ import Link from "next/link";
 import { AuthContext } from "../../context/AuthContext";
 import Header from "../../components/layout/Header";
 import "../login/login.css"; // Reuse the login CSS
+import { API_URL } from "@/lib/api";
 
 export default function Register() {
   const [name, setName] = useState("");
@@ -29,7 +30,7 @@ export default function Register() {
     setLoading(true);
 
     try {
-      const res = await fetch("http://localhost:8000/api/v1/auth/register", {
+      const res = await fetch(`${API_URL}/auth/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name, email, password }),

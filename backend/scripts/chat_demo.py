@@ -4,7 +4,9 @@ from pathlib import Path
 # Add backend to Python path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from app.chat.graph import chat_graph
+from app.chat.graph import get_chat_graph
+
+chat_graph = get_chat_graph()
 
 def run_demo():
     print("🤖 Welcome to GovFlow AI Terminal Demo!")

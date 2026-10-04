@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import './WorkflowSidebar.css';
+import { API_URL } from "@/lib/api";
 
 export default function WorkflowSidebar({ workflow, onClose, embedded = false }) {
   const { token, user } = useContext(AuthContext);
@@ -23,7 +24,7 @@ export default function WorkflowSidebar({ workflow, onClose, embedded = false })
 
       // If user is logged in, fetch authoritative progress from backend
       if (token) {
-        fetch('http://localhost:8000/api/v1/history/plans', {
+        fetch(`${API_URL}/history/plans`, {
           headers: { Authorization: `Bearer ${token}` }
         })
         .then(res => res.json())
@@ -57,7 +58,7 @@ export default function WorkflowSidebar({ workflow, onClose, embedded = false })
       localStorage.setItem(`govflow_progress_${workflow.service_code}`, JSON.stringify(dataToSave));
       
       if (token) {
-        fetch(`http://localhost:8000/api/v1/history/plans/${workflow.service_code}/progress`, {
+        fetch(`${API_URL}/history/plans/${workflow.service_code}/progress`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',

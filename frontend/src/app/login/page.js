@@ -6,6 +6,7 @@ import Link from "next/link";
 import { AuthContext } from "../../context/AuthContext";
 import Header from "../../components/layout/Header";
 import "./login.css";
+import { API_URL } from "@/lib/api";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -21,7 +22,7 @@ export default function Login() {
     setLoading(true);
 
     try {
-      const res = await fetch("http://localhost:8000/api/v1/auth/login", {
+      const res = await fetch(`${API_URL}/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),

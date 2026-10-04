@@ -4,6 +4,7 @@ import { use, useState, useEffect } from 'react';
 import Header from '../../../components/layout/Header';
 import './service-detail.css';
 import Link from 'next/link';
+import { API_URL } from "@/lib/api";
 
 export default function ServiceDetail({ params }) {
   const { code } = use(params);
@@ -12,7 +13,7 @@ export default function ServiceDetail({ params }) {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetch(`http://localhost:8000/api/v1/services/${code}`)
+    fetch(`${API_URL}/services/${code}`)
       .then(res => {
         if (!res.ok) throw new Error("Service not found");
         return res.json();

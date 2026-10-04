@@ -1,8 +1,9 @@
-from fastapi import APIRouter, HTTPException, Depends
+from fastapi import APIRouter, HTTPException, Depends, Request
 from pydantic import BaseModel
 from sqlalchemy.orm import Session
 from app.database import get_db
 from app.models import User
+from app.rate_limit import limiter, LOGIN_LIMIT, REGISTER_LIMIT
 from app.auth_utils import hash_password, verify_password, create_access_token, get_current_user
 
 router = APIRouter()
@@ -27,16 +28,17 @@ class AuthResponse(BaseModel):
     user: dict
 
 @router.post("/auth/register", response_model=AuthResponse)
-def register(request: RegisterRequest, db: Session = Depends(get_db)):
+@limiter.limit(REGISTER_LIMIT)
+def register(request: Request, body: RegisterRequest, db: Session = Depends(get_db)):
     """Register a new user."""
-    existing_user = db.query(User).filter(User.email == request.email).first()
+    existing_user = db.query(User).filter(User.email == body.email).first()
     if existing_user:
         raise HTTPException(status_code=400, detail="Email already registered")
         
     new_user = User(
-        email=request.email,
-        name=request.name,
-        hashed_password=hash_password(request.password)
+        email=body.email,
+        name=body.name,
+        hashed_password=hash_password(body.password)
     )
     db.add(new_user)
     db.commit()
@@ -51,10 +53,11 @@ def register(request: RegisterRequest, db: Session = Depends(get_db)):
     )
 
 @router.post("/auth/login", response_model=AuthResponse)
-def login(request: LoginRequest, db: Session = Depends(get_db)):
+@limiter.limit(LOGIN_LIMIT)
+def login(request: Request, body: LoginRequest, db: Session = Depends(get_db)):
     """Login and return JWT token."""
-    user = db.query(User).filter(User.email == request.email).first()
-    if not user or not verify_password(request.password, user.hashed_password):
+    user = db.query(User).filter(User.email == body.email).first()
+    if not user or not verify_password(body.password, user.hashed_password):
         raise HTTPException(status_code=401, detail="Invalid email or password")
         
     token = create_access_token({"sub": str(user.id)})
