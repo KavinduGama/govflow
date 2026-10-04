@@ -5,10 +5,16 @@ from sqlalchemy import text
 from app.models import DocumentChunk
 from app.database import SessionLocal
 
-client = OpenAI()
+_client = None
+
+def _get_client():
+    global _client
+    if _client is None:
+        _client = OpenAI()
+    return _client
 
 def get_embedding(text: str) -> list[float]:
-    response = client.embeddings.create(
+    response = _get_client().embeddings.create(
         input=text,
         model="text-embedding-3-small"
     )

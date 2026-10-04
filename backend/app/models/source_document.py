@@ -30,6 +30,9 @@ class SourceDocument(Base):
     # "webpage", "pdf", "form", "faq"
     source_type: Mapped[str] = mapped_column(String(50), default="webpage")
 
+    last_scraped_at: Mapped[str | None] = mapped_column(String(100), nullable=True)
+    content_hash: Mapped[str | None] = mapped_column(String(64), nullable=True)
+
     department: Mapped["Department"] = relationship("Department", backref="source_documents")
     service: Mapped["Service"] = relationship("Service", backref="source_documents")
 

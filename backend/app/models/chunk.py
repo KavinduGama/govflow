@@ -31,6 +31,8 @@ class DocumentChunk(Base):
     # text-embedding-3-small outputs 1536 dimensions by default
     embedding: Mapped[list[float]] = mapped_column(Vector(1536), nullable=False)
 
+    content_hash: Mapped[str | None] = mapped_column(String(64), nullable=True)
+
     source_document: Mapped["SourceDocument"] = relationship("SourceDocument", backref="chunks")
 
     def __repr__(self) -> str:

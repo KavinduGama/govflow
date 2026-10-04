@@ -8,24 +8,62 @@ import Link from 'next/link';
 export default function AdminDashboard() {
   const [stats, setStats] = useState(null);
   const [services, setServices] = useState([]);
+  const [kbStats, setKbStats] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  // Sync state
+  const [isSyncing, setIsSyncing] = useState(false);
+  const [forceLive, setForceLive] = useState(false);
+  const [syncResult, setSyncResult] = useState(null);
+  const [syncError, setSyncError] = useState(null);
+
+  const fetchDashboardData = async () => {
+    try {
+      const [statsData, servicesData, kbData] = await Promise.all([
+        fetch('http://localhost:8000/api/v1/admin/dashboard').then(res => res.json()),
+        fetch('http://localhost:8000/api/v1/admin/services').then(res => res.json()),
+        fetch('http://localhost:8000/api/v1/admin/knowledge-base/stats').then(res => res.json())
+      ]);
+      setStats(statsData);
+      setServices(servicesData);
+      setKbStats(kbData);
+      setLoading(false);
+    } catch (err) {
+      console.error("Admin fetch error:", err);
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    // Fetch stats and services in parallel
-    Promise.all([
-      fetch('http://localhost:8000/api/v1/admin/dashboard').then(res => res.json()),
-      fetch('http://localhost:8000/api/v1/admin/services').then(res => res.json())
-    ])
-      .then(([statsData, servicesData]) => {
-        setStats(statsData);
-        setServices(servicesData);
-        setLoading(false);
-      })
-      .catch(err => {
-        console.error("Admin fetch error:", err);
-        setLoading(false);
-      });
+    fetchDashboardData();
   }, []);
+
+  const handleScrapeAndSync = async () => {
+    setIsSyncing(true);
+    setSyncError(null);
+    setSyncResult(null);
+
+    try {
+      const res = await fetch(`http://localhost:8000/api/v1/admin/scrape-sync?force_live=${forceLive}`, {
+        method: 'POST',
+      });
+
+      if (!res.ok) {
+        const errData = await res.json().catch(() => ({ detail: 'Sync failed' }));
+        throw new Error(errData.detail || `Server error: ${res.status}`);
+      }
+
+      const data = await res.json();
+      setSyncResult(data);
+      // Refresh statistics after sync
+      await fetchDashboardData();
+    } catch (err) {
+      console.error("Scrape & Sync error:", err);
+      setSyncError(err.message || "Failed to trigger Scrape & Sync pipeline.");
+    } finally {
+      setIsSyncing(false);
+    }
+  };
 
   if (loading) {
     return (
@@ -45,16 +83,19 @@ export default function AdminDashboard() {
         <div className="admin-sidebar">
           <h2>Admin Panel</h2>
           <nav>
-            <a href="#" className="active">Dashboard</a>
-            <a href="#">Services</a>
-            <a href="#">Users</a>
-            <a href="#">Settings</a>
+            <a href="#overview" className="active">Overview</a>
+            <a href="#knowledge-base">Knowledge Base & Sync</a>
+            <a href="#services">Services</a>
+            <Link href="/" style={{ marginTop: '20px', color: 'var(--primary-light)' }}>
+              &larr; Back to Citizen Chat
+            </Link>
           </nav>
         </div>
         
         <div className="admin-main fade-in-up">
-          <div className="admin-header">
+          <div className="admin-header" id="overview">
             <h1>Dashboard Overview</h1>
+            <p className="admin-subtitle">Monitor services, workflow engine, and RAG vector store synchronization.</p>
           </div>
 
           {stats && (
@@ -76,15 +117,169 @@ export default function AdminDashboard() {
                 <div className="stat-value">{stats.required_documents}</div>
               </div>
               <div className="stat-card">
-                <h3>Source URLs</h3>
+                <h3>Source Documents</h3>
                 <div className="stat-value">{stats.source_documents}</div>
+              </div>
+              <div className="stat-card highlight">
+                <h3>Vector Chunks</h3>
+                <div className="stat-value">{stats.document_chunks || kbStats?.total_chunks || 0}</div>
               </div>
             </div>
           )}
 
-          <div className="admin-section">
+          {/* ── Knowledge Base & Scrape & Sync Section ── */}
+          <div className="admin-section kb-section" id="knowledge-base">
             <div className="section-header">
-              <h2>Manage Services</h2>
+              <div>
+                <h2>Knowledge Base &amp; Vector Synchronization</h2>
+                <p className="section-desc">
+                  Scrape official government portals and ingest FAQs, procedures, and forms with SHA-256 change detection.
+                </p>
+              </div>
+              <div className="sync-actions">
+                <label className="checkbox-container">
+                  <input 
+                    type="checkbox" 
+                    checked={forceLive} 
+                    onChange={(e) => setForceLive(e.target.checked)}
+                    disabled={isSyncing}
+                  />
+                  <span>Live Web Scraper</span>
+                </label>
+                <button 
+                  className={`primary-btn-sync ${isSyncing ? 'loading' : ''}`}
+                  onClick={handleScrapeAndSync}
+                  disabled={isSyncing}
+                >
+                  {isSyncing ? (
+                    <>
+                      <span className="spinner"></span>
+                      <span>Scraping &amp; Syncing...</span>
+                    </>
+                  ) : (
+                    <>
+                      <span className="sync-icon">🔄</span>
+                      <span>Scrape &amp; Sync</span>
+                    </>
+                  )}
+                </button>
+              </div>
+            </div>
+
+            {/* Sync Results Banner */}
+            {syncResult && (
+              <div className="sync-result-card success fade-in">
+                <div className="result-header">
+                  <span className="result-icon">✓</span>
+                  <div>
+                    <strong>Sync Completed Successfully</strong>
+                    <p>
+                      {syncResult.scraped_live 
+                        ? 'Scraped live portal and synchronized vector database.' 
+                        : 'Synchronized verified dataset into vector database.'}
+                    </p>
+                  </div>
+                </div>
+                <div className="result-stats-row">
+                  <div className="result-stat-item">
+                    <span className="result-label">Docs Processed</span>
+                    <span className="result-val">{syncResult.documents_processed}</span>
+                  </div>
+                  <div className="result-stat-item">
+                    <span className="result-label">New Chunks</span>
+                    <span className="result-val highlight">{syncResult.new_chunks}</span>
+                  </div>
+                  <div className="result-stat-item">
+                    <span className="result-label">Unchanged (Skipped)</span>
+                    <span className="result-val">{syncResult.unchanged_chunks}</span>
+                  </div>
+                  <div className="result-stat-item">
+                    <span className="result-label">Total Active Chunks</span>
+                    <span className="result-val">{syncResult.total_active_chunks}</span>
+                  </div>
+                  <div className="result-stat-item badge-item">
+                    <span className="result-label">OpenAI Cost Saved</span>
+                    <span className="savings-badge">{syncResult.cost_saved_percent}% Saved</span>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {syncError && (
+              <div className="sync-result-card error fade-in">
+                <span className="result-icon">⚠️</span>
+                <div>
+                  <strong>Sync Failed</strong>
+                  <p>{syncError}</p>
+                </div>
+              </div>
+            )}
+
+            {/* Ingested Documents List */}
+            {kbStats && kbStats.documents && (
+              <div className="kb-table-wrapper">
+                <div className="kb-table-header">
+                  <h3>Ingested Official Documents ({kbStats.documents.length})</h3>
+                  {kbStats.last_sync && (
+                    <span className="last-sync-badge">
+                      Last Synced: {new Date(kbStats.last_sync).toLocaleString()}
+                    </span>
+                  )}
+                </div>
+                <div className="data-table-container">
+                  <table className="data-table">
+                    <thead>
+                      <tr>
+                        <th>Title</th>
+                        <th>Type</th>
+                        <th>Source URL</th>
+                        <th>Chunks</th>
+                        <th>Status</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {kbStats.documents.map((doc) => (
+                        <tr key={doc.id}>
+                          <td className="doc-title-cell">
+                            <strong>{doc.title}</strong>
+                          </td>
+                          <td>
+                            <span className={`type-tag ${doc.source_type}`}>
+                              {doc.source_type}
+                            </span>
+                          </td>
+                          <td>
+                            <a 
+                              href={doc.url} 
+                              target="_blank" 
+                              rel="noreferrer" 
+                              className="source-link"
+                            >
+                              {doc.url.length > 45 ? `${doc.url.slice(0, 42)}...` : doc.url}
+                            </a>
+                          </td>
+                          <td>
+                            <span className="chunk-pill">{doc.chunk_count} chunks</span>
+                          </td>
+                          <td>
+                            <span className="status-badge active">Active</span>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* ── Services Section ── */}
+          <div className="admin-section" id="services" style={{ marginTop: '40px' }}>
+            <div className="section-header">
+              <div>
+                <h2>Manage Services</h2>
+                <p className="section-desc">Active government service decision trees and requirements.</p>
+              </div>
               <button className="primary-btn-sm">+ New Service</button>
             </div>
             

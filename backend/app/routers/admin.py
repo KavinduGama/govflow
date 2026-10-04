@@ -1,7 +1,8 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy.orm import Session
 from app.database import get_db
-from app.models import Service, Question, WorkflowStep, RequiredDocument, SourceDocument
+from app.models import Service, Question, WorkflowStep, RequiredDocument, SourceDocument, DocumentChunk
+from app.services.ingestion import run_scrape_and_sync, get_knowledge_base_stats
 
 router = APIRouter()
 
@@ -13,7 +14,8 @@ def get_dashboard_stats(db: Session = Depends(get_db)):
         "questions": db.query(Question).count(),
         "workflow_steps": db.query(WorkflowStep).count(),
         "required_documents": db.query(RequiredDocument).count(),
-        "source_documents": db.query(SourceDocument).count()
+        "source_documents": db.query(SourceDocument).count(),
+        "document_chunks": db.query(DocumentChunk).count()
     }
 
 @router.get("/admin/services")
@@ -37,3 +39,29 @@ def get_admin_service_details(service_code: str, db: Session = Depends(get_db)):
         "steps": steps,
         "documents": docs
     }
+
+@router.post("/admin/scrape-sync")
+def trigger_scrape_sync(
+    site: str = Query(default="nic", description="Site key to scrape/sync, e.g. 'nic'"),
+    force_live: bool = Query(default=True, description="Whether to attempt live scraping before sync"),
+    db: Session = Depends(get_db)
+):
+    """
+    Trigger scraping and vector knowledge base synchronization.
+    Runs live scraper (with graceful fallback to cached data), chunks content,
+    and updates vector database only for new or modified content.
+    """
+    try:
+        result = run_scrape_and_sync(db=db, site_key=site, force_live=force_live)
+        return result
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Scrape & sync failed: {str(e)}")
+
+@router.get("/admin/knowledge-base/stats")
+def get_kb_stats(db: Session = Depends(get_db)):
+    """Get vector knowledge base statistics, document breakdown, and last sync timestamp."""
+    try:
+        return get_knowledge_base_stats(db)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to fetch KB stats: {str(e)}")
+
