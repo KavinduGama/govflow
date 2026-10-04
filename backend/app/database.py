@@ -39,3 +39,10 @@ def get_db():
         yield db
     finally:
         db.close()
+
+def get_session_factory():
+    """
+    Dependency for work that outlives the request (background tasks open their own sessions).
+    Tests override this to point at their throwaway database.
+    """
+    return SessionLocal

@@ -506,6 +506,7 @@ def run_scrape_and_sync(
     4. Compute change detection statistics and cost savings
     """
     scraped_live = False
+    live_scrape_error: Optional[str] = None
     raw_data: Optional[Dict[str, Any]] = None
 
     if force_live:
@@ -515,7 +516,9 @@ def run_scrape_and_sync(
             nic_scraper.run()
             scraped_live = True
         except Exception as e:
-            logger.warning("Live scraping failed or network timeout: %s. Falling back to cached data.", e)
+            # Includes nic_scraper.IncompleteScrapeError: a broken scrape never replaces the cache
+            live_scrape_error = str(e)
+            logger.warning("Live scraping failed: %s. Falling back to cached data.", e)
 
     # Read the scraped JSON
     nic_json_path = DATA_DIR / "nic_raw.json"
@@ -552,6 +555,7 @@ def run_scrape_and_sync(
     return {
         "status": "success",
         "scraped_live": scraped_live,
+        "live_scrape_error": live_scrape_error,
         "documents_processed": total_docs,
         "new_documents": total_new_docs,
         "updated_documents": total_updated_docs,

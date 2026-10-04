@@ -10,6 +10,7 @@ LEARNING NOTE:
 """
 
 import json
+import os
 import time
 import requests
 from bs4 import BeautifulSoup
@@ -176,13 +177,78 @@ def scrape_downloads() -> list[dict]:
     return downloads
 
 
+# ── Validation ───────────────────────────────────────────────────────────────
+OUTPUT_PATH = OUTPUT_DIR / "nic_raw.json"
+SECTIONS = ("faqs", "procedures", "downloads")
+# A section that shrinks below this fraction of the last good scrape is treated as a failed fetch
+MIN_RETAINED_FRACTION = 0.5
+
+
+class IncompleteScrapeError(Exception):
+    """The scrape looks broken (site down, layout changed), so it must not replace good data."""
+
+
+def validate_scrape(result: dict, previous: dict | None) -> None:
+    """
+    Raise IncompleteScrapeError if the scrape looks broken.
+
+    LEARNING: fetch_page() returns None instead of raising, so a site outage shows up
+    as EMPTY sections, not as an error. We have to check the data itself.
+    """
+    problems = []
+    for section in SECTIONS:
+        count = len(result["data"].get(section, []))
+        prev_count = len((previous or {}).get("data", {}).get(section, []))
+        if count == 0:
+            problems.append(f"{section}: nothing scraped")
+        elif prev_count and count < prev_count * MIN_RETAINED_FRACTION:
+            problems.append(f"{section}: only {count} items (last good scrape had {prev_count})")
+    if problems:
+        raise IncompleteScrapeError("; ".join(problems))
+
+
+def load_previous() -> dict | None:
+    if not OUTPUT_PATH.exists():
+        return None
+    with open(OUTPUT_PATH, "r", encoding="utf-8") as f:
+        return json.load(f)
+
+
+def save_atomically(result: dict) -> None:
+    """
+    Write to a temp file, then swap it in. A crash mid-write leaves the old file intact,
+    because os.replace is atomic: readers see either the old file or the new one, never half.
+    """
+    tmp_path = OUTPUT_PATH.with_suffix(".json.tmp")
+    with open(tmp_path, "w", encoding="utf-8") as f:
+        json.dump(result, f, indent=2, ensure_ascii=False)
+    os.replace(tmp_path, OUTPUT_PATH)
+
+
 # ── Main runner ──────────────────────────────────────────────────────────────
-def run():
+def run() -> dict:
+    """
+    Scrape, validate against the last good scrape, then save.
+    Raises IncompleteScrapeError (and leaves nic_raw.json untouched) if the scrape looks broken.
+    """
     print("[SCRAPE] Starting NIC scraper...")
     print(f"   Target: {BASE_URL}")
-    print(f"   Output: {OUTPUT_DIR / 'nic_raw.json'}")
+    print(f"   Output: {OUTPUT_PATH}")
     print()
-    
+
+    result = scrape()
+    validate_scrape(result, load_previous())
+    save_atomically(result)
+
+    print()
+    print(f"[OK] Done! Saved to: {OUTPUT_PATH}")
+    for section in SECTIONS:
+        print(f"   {section}: {len(result['data'][section])}")
+    return result
+
+
+def scrape() -> dict:
+    """Fetch everything from the DRP site. Does not write anything."""
     result = {
         "scraped_at": datetime.now(timezone.utc).isoformat(),
         "source_department": "Department for Registration of Persons",
@@ -203,17 +269,7 @@ def run():
     # 3. Downloads
     print("[FORMS] Scraping downloads/forms...")
     result["data"]["downloads"] = scrape_downloads()
-    
-    # Save
-    output_path = OUTPUT_DIR / "nic_raw.json"
-    with open(output_path, "w", encoding="utf-8") as f:
-        json.dump(result, f, indent=2, ensure_ascii=False)
-    
-    print()
-    print(f"[OK] Done! Saved to: {output_path}")
-    print(f"   FAQs: {len(result['data']['faqs'])}")
-    print(f"   Procedures: {len(result['data']['procedures'])}")
-    print(f"   Downloads: {len(result['data']['downloads'])}")
+    return result
 
 
 if __name__ == "__main__":

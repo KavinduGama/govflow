@@ -13,14 +13,14 @@ from sqlalchemy.orm import sessionmaker  # noqa: E402
 from sqlalchemy.pool import StaticPool  # noqa: E402
 
 from app.auth_utils import create_access_token, hash_password  # noqa: E402
-from app.database import Base, get_db  # noqa: E402
+from app.database import Base, get_db, get_session_factory  # noqa: E402
 from app.main import app  # noqa: E402
 from app.models import User  # noqa: E402
 from app.rate_limit import limiter  # noqa: E402
 
 
 @pytest.fixture
-def db_session():
+def session_factory():
     # StaticPool keeps one connection, so the in-memory DB is shared with the TestClient's thread
     engine = create_engine(
         "sqlite:///:memory:",
@@ -28,14 +28,20 @@ def db_session():
         poolclass=StaticPool,
     )
     Base.metadata.create_all(engine)
-    session = sessionmaker(bind=engine)()
+    return sessionmaker(bind=engine)
+
+
+@pytest.fixture
+def db_session(session_factory):
+    session = session_factory()
     yield session
     session.close()
 
 
 @pytest.fixture
-def client(db_session):
+def client(db_session, session_factory):
     app.dependency_overrides[get_db] = lambda: db_session
+    app.dependency_overrides[get_session_factory] = lambda: session_factory
     limiter.reset()  # rate-limit counters are global; start every test from zero
     yield TestClient(app)
     app.dependency_overrides.clear()

@@ -1,10 +1,12 @@
 import logging
+from typing import Literal
 
-from fastapi import APIRouter, Depends, HTTPException, Query, Request
+from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException, Query, Request
 from sqlalchemy.orm import Session
-from app.database import get_db
-from app.models import Service, Question, WorkflowStep, RequiredDocument, SourceDocument, DocumentChunk
-from app.services.ingestion import run_scrape_and_sync, get_knowledge_base_stats
+from app.database import get_db, get_session_factory
+from app.models import Service, Question, WorkflowStep, RequiredDocument, SourceDocument, DocumentChunk, SyncRun, User
+from app.services.ingestion import get_knowledge_base_stats
+from app.services.sync_jobs import SyncAlreadyRunningError, create_sync_run, execute_sync_run
 from app.auth_utils import require_admin
 from app.rate_limit import limiter, SCRAPE_SYNC_LIMIT
 
@@ -47,25 +49,46 @@ def get_admin_service_details(service_code: str, db: Session = Depends(get_db)):
         "documents": docs
     }
 
-@router.post("/admin/scrape-sync")
+@router.post("/admin/scrape-sync", status_code=202)
 @limiter.limit(SCRAPE_SYNC_LIMIT)
 def trigger_scrape_sync(
     request: Request,
-    site: str = Query(default="nic", description="Site key to scrape/sync, e.g. 'nic'"),
+    background_tasks: BackgroundTasks,
+    # Only sites the ingestion pipeline actually supports; anything else is a 422, not a silent NIC sync
+    site: Literal["nic"] = Query(default="nic", description="Site key to scrape/sync"),
     force_live: bool = Query(default=True, description="Whether to attempt live scraping before sync"),
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
+    session_factory=Depends(get_session_factory),
+    admin: User = Depends(require_admin),
 ):
     """
-    Trigger scraping and vector knowledge base synchronization.
-    Runs live scraper (with graceful fallback to cached data), chunks content,
-    and updates vector database only for new or modified content.
+    Queue a scrape & knowledge-base sync and return immediately (202 Accepted).
+    Poll GET /admin/sync-runs/{id} for progress and the result summary.
     """
     try:
-        result = run_scrape_and_sync(db=db, site_key=site, force_live=force_live)
-        return result
-    except Exception:
-        logger.exception("Scrape & sync failed for site=%s", site)
-        raise HTTPException(status_code=500, detail="Scrape & sync failed. Check server logs.")
+        run = create_sync_run(db, site=site, force_live=force_live, user_id=admin.id)
+    except SyncAlreadyRunningError as e:
+        raise HTTPException(
+            status_code=409,
+            detail={"message": "A sync is already in progress.", "run": e.run.to_dict()},
+        )
+    background_tasks.add_task(execute_sync_run, run.id, session_factory)
+    return run.to_dict()
+
+
+@router.get("/admin/sync-runs")
+def list_sync_runs(limit: int = Query(default=10, ge=1, le=50), db: Session = Depends(get_db)):
+    """Most recent sync runs first."""
+    runs = db.query(SyncRun).order_by(SyncRun.created_at.desc(), SyncRun.id.desc()).limit(limit).all()
+    return [r.to_dict() for r in runs]
+
+
+@router.get("/admin/sync-runs/{run_id}")
+def get_sync_run(run_id: int, db: Session = Depends(get_db)):
+    run = db.get(SyncRun, run_id)
+    if not run:
+        raise HTTPException(status_code=404, detail="Sync run not found")
+    return run.to_dict()
 
 @router.get("/admin/knowledge-base/stats")
 def get_kb_stats(db: Session = Depends(get_db)):

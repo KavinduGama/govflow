@@ -257,6 +257,10 @@
   color: var(--text-secondary);
 }
 
+.result-header p.sync-warning {
+  color: #fbbf24;
+}
+
 .result-stats-row {
   display: flex;
   gap: 20px;

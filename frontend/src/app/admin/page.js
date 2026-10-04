@@ -7,6 +7,8 @@ import './admin.css';
 import Link from 'next/link';
 import { API_URL } from "@/lib/api";
 
+const SYNC_POLL_MS = 2000;
+
 async function loadAdminData(token) {
   const headers = { Authorization: `Bearer ${token}` };
   const getJson = (path) =>
@@ -37,6 +39,7 @@ export default function AdminDashboard() {
   const [forceLive, setForceLive] = useState(false);
   const [syncResult, setSyncResult] = useState(null);
   const [syncError, setSyncError] = useState(null);
+  const [syncStatus, setSyncStatus] = useState(null); // queued | running | succeeded | failed
 
   const fetchDashboardData = useCallback(
     () => loadAdminData(token)
@@ -56,24 +59,44 @@ export default function AdminDashboard() {
     fetchDashboardData();
   }, [isAdmin, fetchDashboardData]);
 
+  // The sync runs in the background on the server: we queue it, then poll its status.
+  const waitForSyncRun = async (runId) => {
+    const headers = { Authorization: `Bearer ${token}` };
+    for (;;) {
+      await new Promise(resolve => setTimeout(resolve, SYNC_POLL_MS));
+      const res = await fetch(`${API_URL}/admin/sync-runs/${runId}`, { headers });
+      if (!res.ok) throw new Error(`Could not check sync status (${res.status})`);
+      const run = await res.json();
+      setSyncStatus(run.status);
+      if (run.status === 'succeeded') return run.result;
+      if (run.status === 'failed') throw new Error(run.error || 'Sync failed');
+    }
+  };
+
   const handleScrapeAndSync = async () => {
     setIsSyncing(true);
     setSyncError(null);
     setSyncResult(null);
+    setSyncStatus('queued');
 
     try {
       const res = await fetch(`${API_URL}/admin/scrape-sync?force_live=${forceLive}`, {
         method: 'POST',
         headers: { Authorization: `Bearer ${token}` },
       });
+      const body = await res.json().catch(() => ({}));
 
-      if (!res.ok) {
-        const errData = await res.json().catch(() => ({ detail: 'Sync failed' }));
-        throw new Error(errData.detail || `Server error: ${res.status}`);
+      let runId;
+      if (res.status === 202) {
+        runId = body.id;
+      } else if (res.status === 409) {
+        // Someone (maybe another tab) already started one: follow that run instead
+        runId = body.detail.run.id;
+      } else {
+        throw new Error(body.detail || `Server error: ${res.status}`);
       }
 
-      const data = await res.json();
-      setSyncResult(data);
+      setSyncResult(await waitForSyncRun(runId));
       // Refresh statistics after sync
       await fetchDashboardData();
     } catch (err) {
@@ -192,7 +215,7 @@ export default function AdminDashboard() {
                   {isSyncing ? (
                     <>
                       <span className="spinner"></span>
-                      <span>Scraping &amp; Syncing...</span>
+                      <span>{syncStatus === 'running' ? 'Scraping & syncing…' : 'Queued…'}</span>
                     </>
                   ) : (
                     <>
@@ -216,6 +239,11 @@ export default function AdminDashboard() {
                         ? 'Scraped live portal and synchronized vector database.' 
                         : 'Synchronized verified dataset into vector database.'}
                     </p>
+                    {syncResult.live_scrape_error && (
+                      <p className="sync-warning">
+                        Live scrape skipped, so the last good copy was used: {syncResult.live_scrape_error}
+                      </p>
+                    )}
                   </div>
                 </div>
                 <div className="result-stats-row">
